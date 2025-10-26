@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RojyoMart — B2B Catalog Pro+</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Export libs -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.3/dist/jspdf.plugin.autotable.min.js"></script>
+
+  <meta name="theme-color" content="#1976d2"/>
+
+  <style>
+    body { font-family: "Inter", sans-serif; background:#f8fafc; padding-bottom:130px; scroll-behavior:smooth; }
+    header { background: linear-gradient(135deg,#0d47a1,#1976d2); color:#fff; position:sticky; top:0; z-index:50; box-shadow:0 4px 12px rgba(0,0,0,.15); }
+    .offer-scroll{ background:#1565c0; white-space:nowrap; overflow:hidden; color:#fff; font-size:13px; letter-spacing:.3px; }
+    .offer-scroll span{ display:inline-block; padding-left:100%; animation:scroll 20s linear infinite; }
+    @keyframes scroll{ 0%{transform:translateX(0)}100%{transform:translateX(-100%)} }
+    section.sticky-search{ position:sticky; top:64px; z-index:40; background:rgba(248,250,252,.98); backdrop-filter:blur(8px); box-shadow:0 2px 6px rgba(0,0,0,.05); }
+    .search-box{ box-shadow:0 2px 8px rgba(0,0,0,.08); transition:.3s; } .search-box:focus-within{ box-shadow:0 4px 12px rgba(25,118,210,.25); }
+    tbody tr{ background:#fff; transition:.2s; } tbody tr:hover{ background:#f0f4ff; transform:translateY(-1px); }
+    .qty-btn{ background:#e3f2fd; color:#1565c0; border-radius:6px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.2s; }
+    .qty-btn:hover{ background:#bbdefb; transform:scale(1.05); }
+    .qty-input{ width:56px; text-align:center; border:1px solid #cfd8dc; border-radius:6px; padding:4px; }
+    footer{ position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #e0e0e0; box-shadow:0 -2px 10px rgba(0,0,0,.05); z-index:40; padding:8px 0; }
+    #backToTop{ position:fixed; bottom:96px; right:18px; background:#1976d2; color:#fff; border:none; border-radius:50%; width:44px; height:44px; font-size:20px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); opacity:0; visibility:hidden; transition:.3s; z-index:100; }
+    #backToTop.show{ opacity:1; visibility:visible; }
+    .chip{ border:1px solid #d6e4ff; padding:.25rem .5rem; border-radius:9999px; font-size:.75rem; color:#1e40af; background:#f8fbff; }
+    @media (max-width: 640px){
+      footer ul{ font-size:12px } footer .max-w-7xl{ padding:6px 1rem } body{ padding-bottom:116px }
+      table, thead, tbody, th, td, tr { display:block }
+      thead{ display:none }
+      tbody tr{ margin-bottom:1rem; border-radius:1rem; padding:1rem; box-shadow:0 2px 6px rgba(0,0,0,.05) }
+      #backToTop{ bottom:108px; right:14px }
+    }
+    /* Simple modal */
+    .modal-bg{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:60; }
+    .modal-bg.show{ display:flex; }
+/* --- Footer spacing so content doesn't hide behind fixed footer --- */
+body {
+  padding-bottom: 85px; /* adjust if your footer height changes */
+}
+
+/* --- Social icon hover effect in footer --- */
+footer a img {
+  filter: grayscale(40%);
+  transition: 0.2s;
+}
+footer a:hover img {
+  filter: none;
+}
+
+/* --- 💬 Pulsing effect for "Chat with Us" button (footer) --- */
+.chat-btn {
+  position: relative;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 0 rgba(72, 187, 120, 0.4);
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(72, 187, 120, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
+  }
+}
+
+/* --- Floating buttons base styles (WhatsApp + Back to Top) --- */
+.floating-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.floating-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Optional: tweak on very small screens */
+@media (max-width: 640px) {
+  body { padding-bottom: 80px; }
+}
+
+/* --- Featured Product Card --- */
+.feature-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+.feature-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+.feature-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  padding: 0.5rem 0.75rem 0 0.75rem;
+}
+.feature-card p {
+  font-size: 13px;
+  color: #475569;
+  padding: 0 0.75rem 0.75rem 0.75rem;
+}
+/* 🌟 FEATURED PRODUCTS CAROUSEL */
+#featuredWrap::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+.feature-card {
+  flex: 0 0 180px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+.feature-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-bottom: 1px solid #f1f5f9;
+}
+.feature-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  padding: 0.4rem 0.6rem 0 0.6rem;
+  line-height: 1.3;
+  height: 36px;
+  overflow: hidden;
+}
+.feature-card p {
+  font-size: 13px;
+  color: #475569;
+  padding: 0 0.6rem 0.6rem 0.6rem;
+  font-weight: 500;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .feature-card { flex: 0 0 140px; }
+  .feature-card img { height: 110px; }
+  .feature-card h3 { font-size: 13px; height: 32px; }
+  .feature-card p { font-size: 12px; }
+}
+  </style>
+</head>
+<body>
+  <!-- Offer -->
+  <div class="offer-scroll">
+  <span id="offerText">Loading latest offer...</span>
+</div>
+<script>
+    fetch('https://script.google.com/macros/s/AKfycbw0w0URSFEBHvfJEIBDz7vM7oCs8wSfXo7BQSgniJTE9UG_OYTVUsiz8rCcf8OWIg/exec')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('offerText').innerText = data.offer;
+      })
+      .catch(err => console.error('Error fetching offer text:', err));
+  </script>
+
+  <!-- Header -->
+  <header class="px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="https://cdn.jsdelivr.net/gh/adrojyomart-ops/rojyomart-images/logo.jpeg" class="w-9 h-9 rounded-full bg-white shadow-md">
+      <div>
+        <h1 class="font-semibold text-lg">RojyoMart B2B Catalog Pro+</h1>
+        <p class="text-xs opacity-90">Your Trusted Wholesale Partner</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="installBtn" class="hidden bg-amber-500 text-white px-3 py-2 rounded-lg text-sm shadow hover:bg-amber-600">➕ Install App</button>
+      <button id="btnSync" class="bg-white text-blue-700 font-medium px-4 py-2 rounded-xl text-sm hover:bg-blue-50 shadow">🔄 Sync Now</button>
+    </div>
+  </header>
+
+  <!-- Search + Filters -->
+  <section class="max-w-7xl mx-auto px-4 py-3 sticky-search">
+    <div class="grid gap-3 md:grid-cols-3">
+      <!-- Search -->
+      <div class="flex items-center bg-white border rounded-2xl p-2.5 search-box md:col-span-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m2.35-5.65A7 7 0 1110 4a7 7 0 019 7z"/></svg>
+        <input id="search" type="search" placeholder="Search by name, SKU, or description…" class="w-full pl-2 outline-none text-sm bg-transparent"/>
+      </div>
+
+      <!-- Filters -->
+      <div class="bg-white border rounded-2xl p-2.5 flex flex-wrap items-center gap-2 md:col-span-2">
+        <select id="filterCategory" class="border rounded-lg px-3 py-2 text-sm">
+          <option value="">All Categories</option>
+        </select>
+        <div class="flex items-center gap-2">
+          <span class="chip">₹</span>
+          <input id="minPrice" type="number" class="border rounded-lg px-2 py-2 w-28 text-sm" placeholder="Min">
+          <span>—</span>
+          <input id="maxPrice" type="number" class="border rounded-lg px-2 py-2 w-28 text-sm" placeholder="Max">
+        </div>
+        <label class="flex items-center gap-2 ml-auto text-sm">
+          <input type="checkbox" id="inStockOnly" class="w-4 h-4"> In Stock Only
+        </label>
+        <button id="btnClearFilters" class="text-blue-700 text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table -->
+<!-- 🌟 FEATURED PRODUCTS (PROFESSIONAL CAROUSEL) -->
+<section class="max-w-7xl mx-auto px-4 mt-6">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+      🌟 Featured Products
+    </h2>
+    <button onclick="document.getElementById('featuredWrap').scrollLeft -= 300" class="text-gray-400 hover:text-blue-600 transition hidden sm:block">←</button>
+    <button onclick="document.getElementById('featuredWrap').scrollLeft += 300" class="text-gray-400 hover:text-blue-600 transition hidden sm:block">→</button>
+  </div>
+
+  <div id="featuredWrap" 
+       class="flex overflow-x-auto gap-4 pb-3 snap-x snap-mandatory scroll-smooth scrollbar-hide px-1">
+    <!-- JS will inject featured cards here -->
+  </div>
+</section>
+
+
+  <main class="max-w-7xl mx-auto px-4 mt-4 mb-24">
+    <table class="w-full text-sm bg-white rounded-2xl shadow-md overflow-hidden">
+      <thead class="bg-blue-50 text-blue-900 text-xs uppercase">
+        <tr>
+          <th class="p-3 text-center">Select</th>
+          <th class="p-3">Image</th>
+          <th class="p-3">SKU</th>
+          <th class="p-3">Product/Description</th>
+          <th class="p-3">Category</th>
+          <th class="p-3 text-right">Price</th>
+          <th class="p-3 text-right">Stock</th>
+          <th class="p-3 text-right">Qty</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div id="emptyState" class="p-8 text-center text-gray-500 hidden">No products found.</div>
+  </main>
+
+  <!-- Floating Quote Bar (with export) -->
+  <div id="selectionBar" class="fixed bottom-36 inset-x-0 bg-white border-t z-50 hidden shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-2 items-center justify-between">
+      <div class="text-sm"><span id="selCount">0</span> items • <b id="selSubtotal">₹0</b></div>
+      <div class="flex flex-wrap gap-2">
+        <button id="btnExportExcel" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-emerald-700 shadow-md">🧩 Export Excel</button>
+        <button id="btnExportPDF" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-indigo-700 shadow-md">🧾 Export PDF</button>
+        <button id="btnShare" class="bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-green-700 shadow-md">💬 Send Quote</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top -->
+  <button id="backToTop" title="Back to Top">↑</button>
+
+  <!-- Image Modal -->
+  <div id="imgModal" class="modal-bg">
+    <div class="bg-white rounded-2xl p-2 max-w-3xl w-[92%] shadow-2xl relative">
+      <button id="imgClose" class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full shadow">✕</button>
+      <img id="imgPreview" src="" alt="Preview" class="w-full h-auto rounded-xl object-contain"/>
+      <div id="imgCaption" class="text-sm text-gray-600 mt-2 px-1"></div>
+    </div>
+  </div>
+<!-- 🆕 PRODUCT DETAIL MODAL -->
+<div id="productModal" class="modal-bg">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-[92%] relative overflow-hidden">
+    <button id="closeProductModal" class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full shadow">✕</button>
+
+    <div class="grid md:grid-cols-2 gap-4 p-4">
+      <div>
+        <img id="pImg" src="" alt="Product" class="w-full h-auto rounded-lg object-contain border">
+      </div>
+      <div>
+        <h2 id="pName" class="text-lg font-semibold text-gray-800 mb-1"></h2>
+        <p id="pSKU" class="text-sm text-gray-500 mb-2"></p>
+        <p id="pDesc" class="text-sm text-gray-700 mb-3"></p>
+        <p><b>Category:</b> <span id="pCat" class="text-gray-600"></span></p>
+        <p><b>Stock:</b> <span id="pStock" class="text-green-600 font-medium"></span></p>
+        <p><b>Price:</b> <span id="pPrice" class="text-blue-700 font-semibold text-lg"></span></p>
+
+        <div class="mt-4 flex items-center gap-2">
+          <input id="pQty" type="number" min="1" value="1"
+                 class="border rounded-lg px-3 py-2 w-24 text-sm" />
+          <button id="addToQuote"
+                  class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">
+            ➕ Add to Quote
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Client Quote Form Modal -->
+  <div id="quoteModal" class="modal-bg">
+    <div class="bg-white rounded-2xl p-5 w-[92%] max-w-xl shadow-2xl relative">
+      <button id="quoteClose" class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full shadow">✕</button>
+      <h3 class="text-lg font-semibold mb-3">Buyer Details</h3>
+      <form id="quoteForm" class="grid gap-3">
+        <input class="border rounded-lg px-3 py-2" id="buyerName" placeholder="Full Name *" required>
+        <input class="border rounded-lg px-3 py-2" id="buyerCompany" placeholder="Company">
+        <input class="border rounded-lg px-3 py-2" id="buyerPhone" placeholder="Phone/WhatsApp *" required>
+        <input class="border rounded-lg px-3 py-2" id="buyerEmail" placeholder="GSTN (optional)">
+        <textarea class="border rounded-lg px-3 py-2" id="buyerNotes" placeholder="Notes / Requirements"></textarea>
+        <div class="flex items-center justify-end gap-2 mt-2">
+          <button type="button" id="quoteCancel" class="px-4 py-2 rounded-lg bg-gray-100">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 text-white">Continue to WhatsApp</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ✅ FIXED FOOTER -->
+<footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+  <div class="max-w-7xl mx-auto px-3 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[13px] text-gray-700 leading-snug">
+
+    <!-- Company Info -->
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+      <div class="font-semibold text-gray-800">🏢 RojyoMart</div>
+      <div class="hidden sm:block text-gray-400">|</div>
+      <div>
+        29/1G/1 Kachchi Sarai,Tajganj, Agra — 282001 |
+        GSTIN: <b>09BFNPK1316J1ZB</b>
+      </div>
+    </div>
+
+    <!-- Right Side: Social + Chat + Terms -->
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+      <!-- Social Icons -->
+      <div class="flex items-center gap-3">
+        <a href="https://www.facebook.com/rojyomart" target="_blank" title="Facebook" class="hover:scale-110 transition">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="w-4 h-4">
+        </a>
+        <a href="https://www.instagram.com/rojyomart" target="_blank" title="Instagram" class="hover:scale-110 transition">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-4 h-4">
+        </a>
+        <a href="https://www.linkedin.com/company/rojyomart" target="_blank" title="LinkedIn" class="hover:scale-110 transition">
+          <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" class="w-4 h-4">
+        </a>
+        <a href="https://www.youtube.com/@rojyomart" target="_blank" title="YouTube" class="hover:scale-110 transition">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" class="w-4 h-4">
+        </a>
+      </div>
+
+      <!-- Footer Links -->
+      <div class="flex items-center gap-2 text-[12px]">
+        <button id="termsBtn" class="text-blue-600 underline hover:text-blue-800 transition">Terms</button>
+        <span>|</span>
+        <button id="privacyBtn" class="text-blue-600 underline hover:text-blue-800 transition">Privacy</button>
+      </div>
+
+      <div class="text-gray-600 text-[12px] sm:ml-2">
+        © <span id="year"></span> RojyoMart
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ✅ TERMS MODAL -->
+<div id="termsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999]">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-[90%] p-5 relative">
+    <button id="closeTerms" class="absolute top-2 right-3 text-gray-400 hover:text-gray-600 text-lg">✖</button>
+    <h2 class="text-lg font-semibold text-gray-800 mb-3">📜 Terms & Conditions</h2>
+    <ul class="list-disc list-inside space-y-1 text-[13px] text-gray-600 leading-relaxed">
+       <li>All prices are exclusive of GST and Packing Charges unless stated otherwise.</li>
+      <li>In dropshipping orders, a packing charge of ₹20 per product applies.</li>
+      <li>Shipping charges vary based on order volume and delivery region.</li>
+      <li>100% advance payment is required before dispatch.</li>
+      <li>Bulk order deliveries are processed within 2–5 working days after confirmation.</li>
+      <li>No return or replacement is accepted for dropshipping or custom-made items.</li>
+    </ul>
+    <div class="mt-4 text-right">
+      <button id="closeTerms2" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ PRIVACY MODAL -->
+<div id="privacyModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999]">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-[90%] p-5 relative">
+    <button id="closePrivacy" class="absolute top-2 right-3 text-gray-400 hover:text-gray-600 text-lg">✖</button>
+    <h2 class="text-lg font-semibold text-gray-800 mb-3">🔒 Privacy Policy</h2>
+    <ul class="list-disc list-inside space-y-1 text-[13px] text-gray-600 leading-relaxed">
+      <li>We collect only the information necessary for order processing.</li>
+      <li>Your data is kept confidential and not shared with third parties.</li>
+      <li>Payments are handled securely via trusted gateways.</li>
+      <li>We may contact you for order confirmation or promotions.</li>
+      <li>By using our services, you agree to our data handling policy.</li>
+    </ul>
+    <div class="mt-4 text-right">
+      <button id="closePrivacy2" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Footer Script -->
+<script>
+  // Auto-update footer year
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Terms Modal Logic
+  const termsModal = document.getElementById("termsModal");
+  document.getElementById("termsBtn").addEventListener("click", () => termsModal.classList.remove("hidden"));
+  document.getElementById("closeTerms").addEventListener("click", () => termsModal.classList.add("hidden"));
+  document.getElementById("closeTerms2").addEventListener("click", () => termsModal.classList.add("hidden"));
+
+  // Privacy Modal Logic
+  const privacyModal = document.getElementById("privacyModal");
+  document.getElementById("privacyBtn").addEventListener("click", () => privacyModal.classList.remove("hidden"));
+  document.getElementById("closePrivacy").addEventListener("click", () => privacyModal.classList.add("hidden"));
+  document.getElementById("closePrivacy2").addEventListener("click", () => privacyModal.classList.add("hidden"));
+
+  // Close popup on outside click
+  window.addEventListener("click", (e) => {
+    if (e.target === termsModal) termsModal.classList.add("hidden");
+    if (e.target === privacyModal) privacyModal.classList.add("hidden");
+  });
+</script>
+
+</body>
+</html>
+
+<!-- FLOATING BUTTONS -->
+<div class="fixed bottom-20 right-4 flex flex-col gap-3 z-50">
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/919837242496?text=Hello%20RojyoMart!%20Need%20help%20with%20a%20B2B%20product%20order."
+     target="_blank"
+     class="floating-btn bg-green-600 hover:bg-green-700 shadow-lg">
+    💬
+  </a>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="floating-btn bg-blue-600 hover:bg-blue-700 shadow-lg hidden">
+    ⬆
+  </button>
+</div>
+
+  <!-- Script -->
+  <script>
+  const API_BASE = 'https://script.google.com/macros/s/AKfycbwUGLtAezSNaFW6-5HgCQ9aBGtZx3hU8EMQTKJR_Gp9PddJd-giaVM4GCmfSfKKzN8/exec';
+  let RAW=[],DATA=[],SELECTED=new Map(), CATEGORIES=new Set();
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const fmt = n => new Intl.NumberFormat('en-IN').format(n||0);
+  const parseNumber = v => Number(String(v).replace(/,/g,''))||0;
+
+  // Fetch
+  async function fetchRows(){
+    const res = await fetch(API_BASE+'?action=list',{cache:'no-store'});
+    const j = await res.json();
+    return j.data||[];
+  }
+
+  // Build category set
+  function rebuildCategories(){
+    CATEGORIES = new Set();
+    RAW.forEach(r=>{
+      const cat = (r.Category||'General').toString().trim() || 'General';
+      CATEGORIES.add(cat);
+    });
+    const sel = document.getElementById('filterCategory');
+    const keep = sel.value;
+    sel.innerHTML = '<option value="">All Categories</option>' + Array.from(CATEGORIES).sort().map(c=>`<option ${c===keep?'selected':''}>${c}</option>`).join('');
+  }
+
+  async function syncNow(){
+  RAW = await fetchRows();
+  rebuildCategories();
+  render();
+  renderFeatured(); // ✅ add this line
+}
+
+  document.getElementById('btnSync').addEventListener('click', syncNow);
+
+  // Filters state
+  const filters = {
+    q: '',
+    category: '',
+    minPrice: null,
+    maxPrice: null,
+    inStockOnly: false,
+  };
+
+  // Render
+// --- FEATURED PRODUCTS SECTION ---
+function renderFeatured() {
+  const wrap = document.getElementById('featuredWrap');
+  if (!wrap || !RAW.length) return;
+
+  const featured = RAW
+    .filter(r => parseNumber(r.QuantityInHand) > 0)
+    .sort((a,b) => parseNumber(b.QuantityInHand) - parseNumber(a.QuantityInHand))
+    .slice(0, 8);
+
+  wrap.innerHTML = '';
+
+  featured.forEach(r => {
+    const img = r.ImageURL || "https://via.placeholder.com/300x300?text=RojyoMart";
+    const card = document.createElement('div');
+    card.className = 'feature-card';
+    card.innerHTML = `
+      <img src="${img}" alt="${r.Name || 'Product'}" class="img-open" data-img="${img}" data-caption="${r.Name}">
+      <h3>${r.Name || 'Product Name'}</h3>
+      <p>₹${fmt(r.Price || 0)}</p>
+    `;
+    card.addEventListener('click', () => openImage(img, r.Name || 'Product'));
+    wrap.appendChild(card);
+  });
+}
+
+  function render(){
+    const q = document.getElementById('search').value.toLowerCase().trim();
+    filters.q = q;
+    filters.category = document.getElementById('filterCategory').value;
+    filters.minPrice = parseNumber(document.getElementById('minPrice').value);
+    filters.maxPrice = parseNumber(document.getElementById('maxPrice').value);
+    filters.inStockOnly = document.getElementById('inStockOnly').checked;
+
+    DATA = RAW
+  .filter(r=>{
+    const keyStrs = [r.SKU,r.Name,r.Description].map(v=>String(v||'').toLowerCase());
+    const matchQ = !q || keyStrs.some(s=>s.includes(q));
+    const cat = (r.Category||'General').toString().trim()||'General';
+    const matchCat = !filters.category || cat===filters.category;
+
+    const price = parseNumber(r.Price);
+    const matchMin = !filters.minPrice || price >= filters.minPrice;
+    const matchMax = !filters.maxPrice || price <= filters.maxPrice;
+
+    const stock = parseNumber(r.QuantityInHand)||0;
+    const matchStock = !filters.inStockOnly || stock>0;
+
+    return matchQ && matchCat && matchMin && matchMax && matchStock;
+  })
+  // ✅ Sort available stock (descending)
+  .sort((a,b)=>{
+    const sa = parseNumber(a.QuantityInHand)||0;
+    const sb = parseNumber(b.QuantityInHand)||0;
+    return sb - sa;
+  });
+
+    const tb = document.getElementById('tbody'); tb.innerHTML='';
+    document.getElementById('emptyState').classList.toggle('hidden', DATA.length!==0);
+
+    DATA.forEach(r=>{
+      const key = String(r.SKU||'').trim(); const sel = SELECTED.get(key);
+      const stock = parseNumber(r.QuantityInHand)||0;
+      const color = stock>0?'text-green-600':'text-red-500';
+      const txt = stock>0?fmt(stock):'Out of Stock';
+      const cat = (r.Category||'General').toString().trim()||'General';
+      const img = r.ImageURL||"https://via.placeholder.com/300x300?text=No+Image";
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="p-3 text-center"><input type='checkbox' class='rowSel' data-sku='${key}' ${sel?'checked':''}></td>
+        <td class="p-3 text-center">
+          <img src='${img}' alt='${(r.Name||'Product')}' class='w-16 h-16 object-cover rounded-lg mx-auto shadow-sm cursor-zoom-in img-open' data-img='${img}' data-caption='${(r.Name||'') + (r.SKU?(" • "+r.SKU):"")}'>
+        </td>
+        <td class="p-3 font-mono text-xs text-gray-500">${r.SKU||''}</td>
+        <td class="p-3 font-medium text-gray-800">${r.Name||''}<div class="text-gray-500 text-xs">${r.Description||''}</div></td>
+        <td class="p-3 text-gray-700">${cat}</td>
+        <td class="p-3 text-right text-gray-700">₹${fmt(r.Price)}</td>
+        <td class="p-3 text-right ${color}">${txt}</td>
+        <td class="p-3 text-right">
+          <div class="flex justify-end items-center gap-1">
+            <button class="qty-btn" data-action="minus" data-sku="${key}">−</button>
+            <input type="number" min="0" class="qty-input qtyInp" data-sku="${key}" value="${sel?.qty||''}" data-stock="${stock}"/>
+            <button class="qty-btn" data-action="plus" data-sku="${key}">+</button>
+          </div>
+        </td>`;
+      tb.appendChild(tr);
+    });
+    updateSelectionBar();
+  }
+
+  function updateSelectionBar(){
+    let subtotal=0,count=0;
+    SELECTED.forEach(({row,qty})=>{ if(parseNumber(qty)>0){ subtotal+=parseNumber(row.Price)*parseNumber(qty); count++; }});
+    document.getElementById('selSubtotal').textContent=`₹${fmt(subtotal)}`;
+    document.getElementById('selCount').textContent=count;
+    document.getElementById('selectionBar').classList.toggle('hidden',count===0);
+  }
+
+  // Qty and selection handlers
+  // --- Click handler (fixed image zoom + stock validation) ---
+document.getElementById('tbody').addEventListener('click', (e) => {
+  // 1️⃣ If image clicked → open zoom modal and stop further code
+  const img = e.target.closest('.img-open');
+  if (img) {
+    openImage(img.dataset.img, img.dataset.caption || '');
+    return;
+  }
+
+  // 2️⃣ Otherwise handle quantity and checkbox logic
+  const t = e.target;
+  const sku = t.dataset.sku;
+  if (!sku) return; // clicked outside SKU-linked element
+
+  const row = RAW.find(r => String(r.SKU || '').trim() === sku);
+  if (!row) return;
+
+  const stock = parseNumber(row.QuantityInHand) || 0;
+
+  if (t.classList.contains('qty-btn')) {
+    const inp = document.querySelector(`input.qtyInp[data-sku="${sku}"]`);
+    let val = parseNumber(inp.value);
+    val += (t.dataset.action === 'plus' ? 1 : -1);
+    if (val < 0) val = 0;
+    if (val > stock) {
+      val = stock;
+      alert(`⚠️ Only ${stock} units available in stock.`);
+    }
+    inp.value = val;
+
+    const cb = document.querySelector(`input.rowSel[data-sku="${sku}"]`);
+    if (val > 0) {
+      cb.checked = true;
+      SELECTED.set(sku, { row, qty: val });
+    } else {
+      cb.checked = false;
+      SELECTED.delete(sku);
+    }
+
+    updateSelectionBar();
+  }
+});
+
+  document.getElementById('tbody').addEventListener('change', e=>{
+    const t=e.target; const sku=t.dataset.sku;
+    const row=RAW.find(r=>String(r.SKU||'').trim()===sku);
+    if(!row) return;
+    const stock=parseNumber(row.QuantityInHand)||0;
+
+    if(t.classList.contains('qtyInp')){
+      let entered=parseNumber(t.value);
+      if(entered>stock){ entered=stock; t.value=entered; alert(`⚠️ Only ${stock} units available in stock.`); }
+      const cb=document.querySelector(`input.rowSel[data-sku="${sku}"]`);
+      if(entered>0){ cb.checked=true; SELECTED.set(sku,{row,qty:entered}); } else { cb.checked=false; SELECTED.delete(sku); }
+    }
+    if(t.classList.contains('rowSel')){
+      const inp=document.querySelector(`input.qtyInp[data-sku="${sku}"]`);
+      if(t.checked){
+        const moq=parseNumber(row.MOQ)||1;
+        let q=parseNumber(inp.value)||moq;
+        if(q>stock){ q=stock; alert(`⚠️ Only ${stock} units available in stock.`); }
+        inp.value=q; SELECTED.set(sku,{row,qty:q});
+      } else { SELECTED.delete(sku); inp.value=''; }
+    }
+    updateSelectionBar();
+  });
+
+  // Search & filters interactions
+  document.getElementById('search').addEventListener('input', render);
+  document.getElementById('filterCategory').addEventListener('change', render);
+  document.getElementById('minPrice').addEventListener('input', render);
+  document.getElementById('maxPrice').addEventListener('input', render);
+  document.getElementById('inStockOnly').addEventListener('change', render);
+  document.getElementById('btnClearFilters').addEventListener('click', ()=>{
+    document.getElementById('filterCategory').value='';
+    document.getElementById('minPrice').value='';
+    document.getElementById('maxPrice').value='';
+    document.getElementById('inStockOnly').checked=false;
+    document.getElementById('search').value='';
+    render();
+  });
+
+  // Build WhatsApp text
+  function buildWhatsAppText(buyer){
+    const items=Array.from(SELECTED.values()).filter(x=>parseNumber(x.qty)>0);
+    if(!items.length) return '';
+    let lines=['*RojyoMart — B2B Quote*',''];
+    if(buyer){
+      lines.push(`*Buyer:* ${buyer.name}${buyer.company?(' • '+buyer.company):''}`);
+      if(buyer.phone) lines.push(`*Phone:* ${buyer.phone}`);
+      if(buyer.email) lines.push(`*Email:* ${buyer.email}`);
+      if(buyer.notes) lines.push(`*Notes:* ${buyer.notes}`);
+      lines.push('');
+    }
+    let total=0,i=1;
+    items.forEach(({row,qty})=>{
+      const price=parseNumber(row.Price), q=parseNumber(qty), st=price*q; total+=st;
+      lines.push(`${i}. *${row.Name}*`);
+      lines.push(`   SKU: ${row.SKU}`);
+      if(row.Category) lines.push(`   Category: ${row.Category}`);
+      lines.push(`   Qty: ${q} • Price: ₹${fmt(price)} • Subtotal: ₹${fmt(st)}`);
+      lines.push('');
+      i++;
+    });
+    lines.push(`*Grand Total:* ₹${fmt(total)}`,'','Thank you for choosing *RojyoMart*! 🙏');
+    return lines.join('\n');
+  }
+
+  // Image Modal
+  function openImage(src, caption){
+    const m = document.getElementById('imgModal');
+    document.getElementById('imgPreview').src = src;
+    document.getElementById('imgCaption').textContent = caption;
+    m.classList.add('show');
+  }
+  document.getElementById('imgClose').onclick = ()=>document.getElementById('imgModal').classList.remove('show');
+  document.getElementById('imgModal').addEventListener('click', (e)=>{ if(e.target.id==='imgModal') e.currentTarget.classList.remove('show'); });
+
+  // Quote Modal before WhatsApp
+  const quoteModal = document.getElementById('quoteModal');
+  document.getElementById('btnShare').addEventListener('click', ()=>{
+    if(Array.from(SELECTED.values()).filter(x=>parseNumber(x.qty)>0).length===0){
+      alert('Please select at least one product.'); return;
+    }
+    quoteModal.classList.add('show');
+  });
+  const closeQuote = ()=>quoteModal.classList.remove('show');
+  document.getElementById('quoteClose').onclick = closeQuote;
+  document.getElementById('quoteCancel').onclick = closeQuote;
+
+  document.getElementById('quoteForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const buyer = {
+      name: document.getElementById('buyerName').value.trim(),
+      company: document.getElementById('buyerCompany').value.trim(),
+      phone: document.getElementById('buyerPhone').value.trim(),
+      email: document.getElementById('buyerEmail').value.trim(),
+      notes: document.getElementById('buyerNotes').value.trim(),
+    };
+    if(!buyer.name || !buyer.phone){ alert('Name and Phone/WhatsApp are required.'); return; }
+    const text=buildWhatsAppText(buyer);
+    const phone='919837242496';
+    const msg=encodeURIComponent(text+'\n\n🛍️ *RojyoMart — Wholesale Store*\n📦 Fast Shipping | Best Prices\n🌐 https://www.rojyomart.com');
+    closeQuote();
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${msg}`,'_blank');
+  });
+
+  // Export: Excel
+  function buildSelectedRows(){
+    const rows=[];
+    SELECTED.forEach(({row,qty})=>{
+      const q=parseNumber(qty);
+      if(q>0){
+        const price=parseNumber(row.Price);
+        rows.push({
+          SKU: row.SKU||'',
+          Name: row.Name||'',
+          Category: row.Category||'',
+          Description: row.Description||'',
+          Price: price,
+          Qty: q,
+          Subtotal: price*q
+        });
+      }
+    });
+    return rows;
+  }
+
+  document.getElementById('btnExportExcel').addEventListener('click', ()=>{
+    const rows=buildSelectedRows();
+    if(rows.length===0){ alert('Nothing selected.'); return; }
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(rows);
+    XLSX.utils.book_append_sheet(wb, ws, 'Quote');
+    const total = rows.reduce((a,b)=>a+(b.Subtotal||0),0);
+    XLSX.utils.sheet_add_aoa(ws, [['Grand Total', '', '', '', '', '', total]], {origin: -1});
+    XLSX.writeFile(wb, `RojyoMart_Quote_${new Date().toISOString().slice(0,10)}.xlsx`);
+  });
+
+  // Export: PDF
+  // ✅ FIXED PDF Export with visible dark Grand Total row
+document.getElementById('btnExportPDF').addEventListener('click', ()=>{
+  const rows = buildSelectedRows();
+  if(rows.length===0){ alert('Nothing selected.'); return; }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'p', unit:'pt', format:'a4'});
+  const date = new Date().toLocaleDateString('en-IN');
+
+  // Header
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(14);
+  doc.text('RojyoMart — B2B Quote', 40, 40);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(10);
+  doc.text(`Date: ${date}`, 40, 58);
+  doc.text('www.rojyomart.com | ad.rojyomart@gmail.com | +91 9837242496', 40, 74);
+
+  // Table data
+  const body = rows.map(r=>[
+    r.SKU,
+    r.Name,
+    r.Category || '',
+    fmt(r.Price),
+    fmt(r.Qty),
+    fmt(r.Subtotal)
+  ]);
+
+  const total = rows.reduce((a,b)=>a+(b.Subtotal||0),0);
+
+  // 🧾 Bold & visible footer row
+  const foot = [[
+    { content: '', colSpan: 3 },
+    { content: 'GRAND TOTAL', colSpan: 2, styles: {
+        halign: 'right',
+        fontStyle: 'bold',
+        textColor: [0,0,0],
+        fillColor: [230,240,255]  // light blue background
+      }},
+    { content: `INR ${fmt(total)}`, styles: {
+        halign: 'right',
+        fontStyle: 'bold',
+        textColor: [0,0,0],
+        fillColor: [230,240,255]
+      }}
+  ]];
+
+  // Generate table
+  doc.autoTable({
+    startY: 90,
+    head: [['SKU','Product','Category','Price','Qty','Subtotal']],
+    body,
+    foot,
+    styles: { fontSize: 9, cellPadding: 4, textColor: [30,30,30] },
+    headStyles: { fillColor: [25,118,210], textColor: 255, fontStyle: 'bold' },
+    footStyles: { fillColor: [230,240,255], textColor: [0,0,0] },
+    columnStyles: { 3:{halign:'right'}, 4:{halign:'right'}, 5:{halign:'right'} }
+  });
+
+  doc.save(`RojyoMart_Quote_${new Date().toISOString().slice(0,10)}.pdf`);
+});
+// --- 🆕 PRODUCT DETAIL MODAL HANDLER ---
+function openProductModal(row) {
+  if (!row) return;
+
+  document.getElementById("pImg").src = row.ImageURL || "https://via.placeholder.com/300x300?text=No+Image";
+  document.getElementById("pName").textContent = row.Name || "Unnamed Product";
+  document.getElementById("pSKU").textContent = "SKU: " + (row.SKU || "N/A");
+  document.getElementById("pDesc").textContent = row.Description || "No description available.";
+  document.getElementById("pCat").textContent = row.Category || "General";
+  
+  const stock = parseNumber(row.QuantityInHand) || 0;
+  document.getElementById("pStock").textContent = stock > 0 ? `${stock} available` : "Out of Stock";
+  document.getElementById("pStock").className = stock > 0 ? "text-green-600 font-medium" : "text-red-500 font-medium";
+  document.getElementById("pPrice").textContent = `₹${fmt(row.Price || 0)}`;
+  document.getElementById("pQty").value = 1;
+
+  // Show modal
+  document.getElementById("productModal").classList.add("show");
+
+  // Add to quote button
+  document.getElementById("addToQuote").onclick = () => {
+    const qty = parseNumber(document.getElementById("pQty").value);
+    if (qty <= 0) return alert("Please enter a valid quantity.");
+    if (qty > stock) return alert(`⚠️ Only ${stock} units available in stock.`);
+
+    const sku = String(row.SKU || "").trim();
+    SELECTED.set(sku, { row, qty });
+    updateSelectionBar();
+
+    alert(`✅ ${row.Name} added to your quote list!`);
+    document.getElementById("productModal").classList.remove("show");
+  };
+}
+
+// Close modal logic
+document.getElementById("closeProductModal").onclick = () => 
+  document.getElementById("productModal").classList.remove("show");
+
+document.getElementById("productModal").addEventListener("click", (e) => {
+  if (e.target.id === "productModal") e.currentTarget.classList.remove("show");
+});
+
+  // Back to Top
+  const topBtn = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 400) topBtn.classList.add("show");
+    else topBtn.classList.remove("show");
+  });
+  topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  // PWA: create manifest & service worker on the fly (works for a single HTML file)
+  (function setupPWA(){
+    // Manifest
+    const manifest = {
+      name: "RojyoMart — B2B Catalog Pro+",
+      short_name: "RojyoMart B2B",
+      start_url: ".",
+      scope: ".",
+      display: "standalone",
+      background_color: "#ffffff",
+      theme_color: "#1976d2",
+      icons: [
+        { src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAA...", sizes:"192x192", type:"image/png" },
+        { src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACW...", sizes:"512x512", type:"image/png" }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('link');
+    link.rel='manifest'; link.href=url; document.head.appendChild(link);
+
+    // Service worker content
+    const swCode = `
+      const CACHE = 'rojyomart-b2b-v1';
+      const CORE = self.registration ? [self.location.href] : ['./'];
+      self.addEventListener('install', e=>{
+        self.skipWaiting();
+        e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)));
+      });
+      self.addEventListener('activate', e=>{
+        e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>k===CACHE?null:caches.delete(k)))));
+        self.clients.claim();
+      });
+      self.addEventListener('fetch', e=>{
+        const req = e.request;
+        // Network-first for API, cache-first for others
+        if(req.url.includes('${API_BASE.split('?')[0]}')){
+          e.respondWith(fetch(req).catch(()=>caches.match(req)));
+        } else {
+          e.respondWith(caches.match(req).then(r=> r || fetch(req).then(resp=>{
+            const copy = resp.clone();
+            caches.open(CACHE).then(c=>c.put(req, copy));
+            return resp;
+          })));
+        }
+      });
+    `;
+    const swBlob = new Blob([swCode], {type:'text/javascript'});
+    const swUrl = URL.createObjectURL(swBlob);
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register(swUrl).catch(console.warn);
+    }
+
+    // Install button UX (for beforeinstallprompt)
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e)=>{
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').classList.remove('hidden');
+    });
+    document.getElementById('installBtn').addEventListener('click', async ()=>{
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      document.getElementById('installBtn').classList.add('hidden');
+    });
+  })();
+
+  // Init
+  (async()=>{ await syncNow(); })();
+  </script>
+<!-- your existing floating buttons, footer, etc. -->
+
+<!-- ✅ UPDATED TERMS & CONDITIONS MODAL -->
+<div id="termsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999]">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-[90%] p-5 relative">
+    <!-- Close Button -->
+    <button id="closeTerms" class="absolute top-2 right-3 text-gray-400 hover:text-gray-600 text-lg">✖</button>
+
+    <!-- Title -->
+    <h2 class="text-lg font-semibold text-gray-800 mb-3">📜 Terms & Conditions</h2>
+
+    <!-- Content -->
+    <ul class="list-disc list-inside space-y-1 text-[13px] text-gray-600 leading-relaxed">
+      <li>All prices are exclusive of GST and Packing Charges unless stated otherwise.</li>
+      <li>In dropshipping orders, a packing charge of ₹20 per product applies.</li>
+      <li>Shipping charges vary based on order volume and delivery region.</li>
+      <li>100% advance payment is required before dispatch.</li>
+      <li>Bulk order deliveries are processed within 2–5 working days after confirmation.</li>
+      <li>No return or replacement is accepted for dropshipping or custom-made items.</li>
+    </ul>
+
+    <!-- Footer Button -->
+    <div class="mt-4 text-right">
+      <button id="closeTerms2" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition">
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ TERMS SCRIPT -->
+<script>
+  // Auto-update footer year (optional if not elsewhere)
+  if (document.getElementById("year")) {
+    document.getElementById("year").textContent = new Date().getFullYear();
+  }
+
+  // Open/Close Logic for Terms Modal
+  const termsModal = document.getElementById("termsModal");
+  const termsBtn = document.getElementById("termsBtn");
+  const closeTerms = document.getElementById("closeTerms");
+  const closeTerms2 = document.getElementById("closeTerms2");
+
+  if (termsBtn) {
+    termsBtn.addEventListener("click", () => termsModal.classList.remove("hidden"));
+  }
+
+  closeTerms.addEventListener("click", () => termsModal.classList.add("hidden"));
+  closeTerms2.addEventListener("click", () => termsModal.classList.add("hidden"));
+
+  // Close when clicking outside the popup
+  window.addEventListener("click", (e) => {
+    if (e.target === termsModal) {
+      termsModal.classList.add("hidden");
+    }
+  });
+</script>
+<!-- 🔹 Auto-Sliding Side Promotional Banners (Google Sheet Controlled) -->
+<div id="leftBanner" class="side-banner left-banner"></div>
+<div id="rightBanner" class="side-banner right-banner"></div>
+
+<style>
+.side-banner {
+  position: fixed;
+  top: 180px;
+  width: 160px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  text-align: center;
+  padding: 8px;
+  overflow: hidden;
+  z-index: 9999;
+}
+.left-banner { left: 10px; }
+.right-banner { right: 10px; }
+
+.side-banner a { text-decoration: none; display: block; }
+.side-banner img {
+  width: 100%;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+.side-banner img:hover { transform: scale(1.05); }
+.side-banner p {
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.slide { display: none; }
+.slide.active { display: block; }
+
+@media (max-width: 768px) {
+  .side-banner { display: none; }
+}
+</style>
+
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxkTHXOzqHKbavwDcrTnMk6Fk94QcfQDOKVDDa5B-1YfPAhtDHF2kmg2z1JuQLeuvs/exec'; // ← replace with your actual /exec link
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadBanners();
+});
+
+async function loadBanners() {
+  try {
+    const res = await fetch(SHEET_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Network response not ok');
+    const data = await res.json();
+
+    renderSide('#leftBanner',  data.left);
+    renderSide('#rightBanner', data.right);
+
+    startAutoSlide('#leftBanner');
+    startAutoSlide('#rightBanner');
+  } catch (err) {
+    console.error('Banner load failed:', err);
+  }
+}
+
+function renderSide(selector, items = []) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  if (!items.length) {
+    el.style.display = 'none';
+    return;
+  }
+
+  el.innerHTML = items.map(b => `
+    <div class="slide">
+      <a href="${b.link || '#'}" target="_blank" rel="noopener">
+        <img src="${b.image}" alt="Promo">
+      </a>
+      <p>${b.message || ''}</p>
+    </div>
+  `).join('');
+}
+
+function startAutoSlide(selector, interval = 3000) {
+  const slides = Array.from(document.querySelectorAll(`${selector} .slide`));
+  if (!slides.length) return;
+
+  let i = 0;
+  slides[i].classList.add('active');
+  setInterval(() => {
+    slides[i].classList.remove('active');
+    i = (i + 1) % slides.length;
+    slides[i].classList.add('active');
+  }, interval);
+}
+</script>
+</body>
+</html>
