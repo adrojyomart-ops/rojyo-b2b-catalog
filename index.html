@@ -270,16 +270,18 @@ footer a:hover img {
       </div>
     </div>
   </section>
+<script>
 // 🌟 URL Based Auto Search
 document.addEventListener("DOMContentLoaded", () => {
   const url = new URL(window.location.href);
   const q = url.searchParams.get("search");
   if (q) {
     document.getElementById("search").value = q;
-    setTimeout(() => render(), 200); // wait until RAW loaded
+    setTimeout(() => render(), 300);
   }
 });
-
+</script>
+  
   <!-- Table -->
 <!-- 🌟 FEATURED PRODUCTS (PROFESSIONAL CAROUSEL) -->
 <section class="max-w-7xl mx-auto px-4 mt-6">
@@ -1178,6 +1180,7 @@ function startAutoSlide(selector, interval = 3000) {
 </script>
 </body>
 </html>
+
 
 
 
