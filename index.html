@@ -212,7 +212,315 @@ footer a:hover img {
   .feature-card h3 { font-size: 13px; height: 32px; }
   .feature-card p { font-size: 12px; }
 }
-  </style>
+  
+/* =====================================
+   AMAZON STYLE MOBILE CARD VIEW (PREVIEW)
+   ===================================== */
+
+@media (max-width:640px){
+
+  table,
+  tbody,
+  tr,
+  td{
+    display:block !important;
+    width:100% !important;
+  }
+
+  tbody tr{
+    display:grid !important;
+    grid-template-columns: 120px 1fr;
+    grid-template-areas:
+  "check info"
+  "img   info"
+  "qty   price";
+    gap:10px;
+    padding:12px !important;
+    border-radius:14px;
+    background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+    margin-bottom:12px;
+  }
+
+  thead{display:none !important;}
+
+  tbody td:nth-child(1){ grid-area:check; }
+
+  tbody td:nth-child(2){ grid-area:img; }
+
+  tbody td:nth-child(2) img{
+    width:110px !important;
+    height:110px !important;
+    object-fit:cover;
+  }
+
+  /* hide SKU and category in mobile card */
+  tbody td:nth-child(3),
+  tbody td:nth-child(5){
+    display:none !important;
+  }
+
+  /* product info */
+  tbody td:nth-child(4){
+    display:block !important;
+    grid-area:info;
+    padding:0 !important;
+    font-size:16px !important;
+    font-weight:700;
+    line-height:1.3;
+  }
+
+  tbody td:nth-child(4) div{
+    font-size:13px !important;
+    font-weight:400;
+    margin-top:4px;
+  }
+
+  /* PRICE */
+tbody td:nth-child(6){
+  grid-area:price;
+  justify-self:end;
+  text-align:right;
+}
+ /* HIDE STOCK IN MOBILE CARD (to avoid overlap) */
+tbody td:nth-child(7){
+  display:none !important;
+}
+
+  tbody td:nth-child(6){
+    font-size:18px !important;
+    font-weight:700;
+    color:#1d4ed8;
+    padding:0 !important;
+    display:inline-block !important;
+  }
+
+  tbody td:nth-child(7){
+    font-size:14px !important;
+    font-weight:600;
+    display:inline-block !important;
+  }
+
+  /* QTY – left side */
+tbody td:nth-child(8){
+  grid-area:qty;
+  justify-self:start;
+  padding-top:0 !important;
+}
+  .qty-btn{
+    width:36px !important;
+    height:36px !important;
+    font-size:18px;
+  }
+
+  .qty-input{
+    width:64px !important;
+    height:36px;
+    font-size:15px;
+  }
+
+  input.rowSel{
+    transform:scale(1.3);
+  }
+}
+
+
+/* ===== MOBILE AMAZON STYLE FOOTER (PREVIEW FIX) ===== */
+@media (max-width:640px){
+
+  footer{
+    padding:4px 8px !important;
+  }
+
+  footer .max-w-7xl > div:nth-child(1){
+    display:none !important;
+  }
+
+  footer .max-w-7xl{
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+  }
+
+  footer img{
+    width:16px !important;
+    height:16px !important;
+  }
+
+  footer button,
+  footer span,
+  footer div{
+    font-size:11px !important;
+    line-height:1.1 !important;
+  }
+
+  body{
+    padding-bottom:55px !important;
+  }
+}
+
+footer .max-w-7xl{
+  flex-wrap:nowrap !important;
+  white-space:nowrap;
+  overflow-x:auto;
+}
+
+footer .max-w-7xl > div{
+  flex-direction:row !important;
+  align-items:center !important;
+  white-space:nowrap;
+}
+
+footer{
+  line-height:1 !important;
+}
+
+/* ===============================
+   Move selection strip near footer (PREVIEW)
+   =============================== */
+@media (max-width:640px){
+
+  #selectionBar{
+    bottom:52px !important;
+  }
+
+}
+
+
+@media (max-width:640px){
+  header{padding:8px 12px !important;border-radius:0 0 16px 16px;}
+  header p{display:none !important;}
+  header h1{font-size:15px !important;}
+  #btnSync{padding:6px 12px !important;font-size:12px !important;}
+  #micBtn,#clearSelBtn{font-size:18px;}
+}
+
+
+/* =====================================
+   CLEAN MODERN APP UI (Mobile only)
+===================================== */
+
+@media (max-width:640px){
+
+body{
+  background:linear-gradient(180deg,#f4f7fb,#eef2f7) !important;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+header{
+  background:rgba(25,118,210,.92) !important;
+  backdrop-filter: blur(10px);
+  border-radius:0 0 22px 22px;
+  padding:10px 14px !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
+}
+
+header h1{font-size:16px !important;font-weight:700;letter-spacing:.2px;}
+header p{display:none !important;}
+
+#btnSync{
+  background:#ffffff !important;
+  color:#1976d2 !important;
+  border-radius:999px !important;
+  padding:6px 14px !important;
+  font-size:12px !important;
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+section.sticky-search{
+  background:transparent !important;
+  box-shadow:none !important;
+  top:54px !important;
+}
+
+.search-box{
+  border-radius:999px !important;
+  padding:12px 16px !important;
+  background:#fff !important;
+  box-shadow:0 14px 28px rgba(0,0,0,.15) !important;
+}
+
+#search{font-size:14px !important;}
+
+section.sticky-search > div > div:last-child{
+  background:#fff !important;
+  border-radius:18px;
+  padding:10px !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
+tbody tr{
+  background:#ffffff !important;
+  border-radius:22px !important;
+  padding:16px !important;
+  margin-bottom:16px !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+tbody td:nth-child(4){font-size:16px !important;font-weight:700 !important;color:#0f172a;}
+tbody td:nth-child(4) div{color:#64748b !important;font-size:13px !important;}
+
+tbody td:nth-child(2) img{
+  border-radius:14px !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+tbody td:nth-child(6){
+  background:linear-gradient(135deg,#1976d2,#1e88e5);
+  color:#fff !important;
+  padding:6px 12px !important;
+  border-radius:999px;
+  font-size:15px !important;
+  font-weight:700;
+}
+
+tbody td:nth-child(7){font-size:13px !important;margin-left:10px;}
+
+.qty-btn{
+  background:#eef4ff !important;
+  color:#1d4ed8 !important;
+  width:38px !important;
+  height:38px !important;
+  border-radius:12px !important;
+  font-weight:700;
+}
+
+.qty-input{
+  height:38px !important;
+  border-radius:12px !important;
+  border:1px solid #dbeafe;
+}
+
+#selectionBar{
+  background:#ffffff !important;
+  border-radius:22px 22px 0 0;
+  box-shadow:0 -10px 28px rgba(0,0,0,.2);
+}
+
+#selectionBar button{
+  border-radius:999px !important;
+  padding:8px 12px !important;
+  font-size:12px !important;
+}
+
+footer{
+  background:#ffffff !important;
+  border-radius:22px 22px 0 0;
+  padding:6px 10px !important;
+  box-shadow:0 -8px 24px rgba(0,0,0,.18);
+}
+
+footer .max-w-7xl{justify-content:center !important;}
+footer img{width:20px !important;height:20px !important;}
+
+#micBtn,#clearSelBtn{font-size:18px;margin-left:6px;}
+
+body{padding-bottom:58px !important;}
+
+}
+
+</style>
 </head>
 <body>
   <!-- Offer -->
@@ -496,6 +804,54 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === termsModal) termsModal.classList.add("hidden");
     if (e.target === privacyModal) privacyModal.classList.add("hidden");
   });
+</script>
+
+
+<script>
+(function(){
+  const micBtn = document.getElementById("micBtn");
+  const clearSelBtn = document.getElementById("clearSelBtn");
+
+  if(micBtn && ("webkitSpeechRecognition" in window || "SpeechRecognition" in window)){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-IN";
+
+    micBtn.addEventListener("click", ()=>{
+      recognition.start();
+      micBtn.textContent="🎙️";
+    });
+
+    recognition.onresult = (e)=>{
+      const text = e.results[0][0].transcript;
+      const s = document.getElementById("search");
+      if(s){
+        s.value = text;
+        if(window.render) render();
+      }
+    };
+    recognition.onend = ()=> micBtn.textContent="🎤";
+  }
+
+  if(clearSelBtn){
+    clearSelBtn.addEventListener("click", ()=>{
+      if(!window.SELECTED) return;
+      SELECTED.clear();
+      document.querySelectorAll(".rowSel").forEach(c=>c.checked=false);
+      document.querySelectorAll(".qtyInp").forEach(i=>i.value="");
+      if(window.updateSelectionBar) updateSelectionBar();
+    });
+  }
+
+  const oldUpdate = window.updateSelectionBar;
+  if(oldUpdate){
+    window.updateSelectionBar = function(){
+      oldUpdate();
+      if(!clearSelBtn || !window.SELECTED) return;
+      clearSelBtn.classList.toggle("hidden", SELECTED.size===0);
+    }
+  }
+})();
 </script>
 
 </body>
@@ -1180,8 +1536,3 @@ function startAutoSlide(selector, interval = 3000) {
 </script>
 </body>
 </html>
-
-
-
-
-
