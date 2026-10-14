@@ -1,1538 +1,393 @@
-<!DOCTYPE html>
-<html lang="en">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N11LN5LQG3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  // ✅ Basic Analytics setup
-  gtag('config', 'G-N11LN5LQG3', {
-    'anonymize_ip': true,
-    'send_page_view': true
-  });
-
-  // ✅ Track outbound clicks (like WhatsApp, product links)
-  document.addEventListener('click', function(e) {
-    let target = e.target.closest('a');
-    if (target && target.href) {
-      const href = target.href;
-      
-      // WhatsApp Clicks
-      if (href.includes('wa.me') || href.includes('whatsapp')) {
-        gtag('event', 'whatsapp_click', {
-          'event_category': 'engagement',
-          'event_label': href,
-          'value': 1
-        });
-      }
-      
-      // Product Clicks (if product link pattern exists)
-      if (href.includes('product') || href.includes('catalog')) {
-        gtag('event', 'product_click', {
-          'event_category': 'catalog',
-          'event_label': href,
-          'value': 1
-        });
-      }
-    }
-  });
-</script>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RojyoMart — B2B Catalog Pro+</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Export libs -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.3/dist/jspdf.plugin.autotable.min.js"></script>
-
-  <meta name="theme-color" content="#1976d2"/>
-
+<!doctype html>
+<html lang="en-IN"><head><script>window["_codeletBootstrap_"]=JSON.parse('{"A":"A","B":"20261014-02-f8f07f6","C":{"Abril Fatface":"YACgEZbkUVE,0","Albert Sans":"YAHO2HRfeh4,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo Black":"YACgEZulLoA,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Baloo 2":"YAHO2IcQUcM,0","Barlow Condensed":"YAFdJljEuFc,0","Barlow":"YAFdJsyuOPM,1","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Canva Sans":"YAFdJjTk5UU,1","Caveat":"YALBs2ploWQ,0","Cinzel":"YACgEeV8bIQ,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","Courier Prime":"YAD1aFjegN8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Figtree":"YAHO2b-mV7A,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAFdJpU7Kkk,0","Fredoka":"YACgEZml080,0","Georgia":"YAGzXkO0pEM,0","Hanken Grotesk":"YAHO2VB9G0I,0","Helvetica":"YAFcf7zkXN0,0","IBM Plex Mono":"YAFdJkmvhGI,0","IBM Plex Sans":"YAFdJgT0SHI,0","Impact":"YAFcfnjI7Vk,0","Instrument Sans":"YAHO2bKyaSQ,0","Instrument Serif":"YAHFeOnZNEk,0","Inter":"YAFdJvSyp_k,3","Italiana":"YAHO2Toik_w,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Josefin Sans":"YAFdJjvw9Ps,0","Karla":"YAHO2V2NSXM,0","Lato":"YAFdJuFCnaw,0","Libre Baskerville":"YACgEUFdPdA,0","Libre Caslon Display":"YAHO2XhLmt0,0","Lobster":"YAD8SnSjSFI,0","Lora":"YACgEXvxf8Q,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YAFdtQi73Xs,0","Noto Sans JP":"YAFdJiHXlcI,0","Noto Sans KR":"YAGsojZj-RQ,0","Nunito Sans":"YAFdtQJYB9w,1","Nunito":"YAFdJoNRMmU,1","Oleo Script":"YACgEQQ14jI,0","Oswald":"YACgEQY10lw,0","Outfit":"YAHO2nVlg14,0","Pacifico":"YADLjORQ1u4,0","Playfair Display":"YAFdJhem5V8,1","Plus Jakarta Sans":"YAHO2gdhi18,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Public Sans":"YAFdJj8NdaU,1","Quicksand":"YAFdJpYtCxE,1","Raleway":"YAFdJhmxbVQ,1","Roboto Slab":"YAFdJswIKAg,0","Rockwell":"YAFcfyVZnN0,0","Rye":"YACgEdQP21k,0","Sarabun":"YAFdJssSnME,0","Schibsted Grotesk":"YAHO2sWydRk,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Space Grotesk":"YAHO2sjPCSM,0","Space Mono":"YADW1-vpsoc,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Trebuchet MS":"YAFcfrglpVA,0","Ubuntu":"YACgERDU--Q,0","Verdana":"YAGzXTctYtQ,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0"}}');</script><script src="/_sdk/05db820ba1544614.telemetry_sdk.js" integrity="sha512-a7JzkQDDcioSXpM61nxTfeRW7PcxWQy5+BrhyeTFmQFsXJ+Gncm0y50u7fTA7qOPegFnRgqCfa0mGUOK1yjDWQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RojyoMart B2B Catalog Pro+</title>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap" rel="stylesheet">
   <style>
-    body { font-family: "Inter", sans-serif; background:#f8fafc; padding-bottom:130px; scroll-behavior:smooth; }
-    header { background: linear-gradient(135deg,#0d47a1,#1976d2); color:#fff; position:sticky; top:0; z-index:50; box-shadow:0 4px 12px rgba(0,0,0,.15); }
-    .offer-scroll{ background:#1565c0; white-space:nowrap; overflow:hidden; color:#fff; font-size:13px; letter-spacing:.3px; }
-    .offer-scroll span{ display:inline-block; padding-left:100%; animation:scroll 20s linear infinite; }
-    @keyframes scroll{ 0%{transform:translateX(0)}100%{transform:translateX(-100%)} }
-    section.sticky-search{ position:sticky; top:64px; z-index:40; background:rgba(248,250,252,.98); backdrop-filter:blur(8px); box-shadow:0 2px 6px rgba(0,0,0,.05); }
-    .search-box{ box-shadow:0 2px 8px rgba(0,0,0,.08); transition:.3s; } .search-box:focus-within{ box-shadow:0 4px 12px rgba(25,118,210,.25); }
-    tbody tr{ background:#fff; transition:.2s; } tbody tr:hover{ background:#f0f4ff; transform:translateY(-1px); }
-    .qty-btn{ background:#e3f2fd; color:#1565c0; border-radius:6px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.2s; }
-    .qty-btn:hover{ background:#bbdefb; transform:scale(1.05); }
-    .qty-input{ width:56px; text-align:center; border:1px solid #cfd8dc; border-radius:6px; padding:4px; }
-    footer{ position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #e0e0e0; box-shadow:0 -2px 10px rgba(0,0,0,.05); z-index:40; padding:8px 0; }
-    #backToTop{ position:fixed; bottom:96px; right:18px; background:#1976d2; color:#fff; border:none; border-radius:50%; width:44px; height:44px; font-size:20px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); opacity:0; visibility:hidden; transition:.3s; z-index:100; }
-    #backToTop.show{ opacity:1; visibility:visible; }
-    .chip{ border:1px solid #d6e4ff; padding:.25rem .5rem; border-radius:9999px; font-size:.75rem; color:#1e40af; background:#f8fbff; }
-    @media (max-width: 640px){
-      footer ul{ font-size:12px } footer .max-w-7xl{ padding:6px 1rem } body{ padding-bottom:116px }
-      table, thead, tbody, th, td, tr { display:block }
-      thead{ display:none }
-      tbody tr{ margin-bottom:1rem; border-radius:1rem; padding:1rem; box-shadow:0 2px 6px rgba(0,0,0,.05) }
-      #backToTop{ bottom:108px; right:14px }
+    :root{--paper:#F7F0E6;--ink:#24211E;--orange:#C9572C;--muted:#756F68;--line:#E9DFD3}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:"DM Sans",sans-serif;color:var(--ink);margin:0}
+    button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}
+    :focus-visible{outline:3px solid #C9572C;outline-offset:3px}
+    [hidden]{display:none!important}
+    .shell{width:100%;max-width:1480px;margin:auto}.soft-shadow{box-shadow:0 10px 32px rgba(76,48,29,.065)}
+    .hero-title{font-family:Fraunces,serif;letter-spacing:-.045em;line-height:1.08}
+    .hero-photo{mask-image:linear-gradient(to bottom,#000 62%,transparent 100%)}
+    .chip.active{background:#24211E!important;color:#fff!important;border-color:#24211E}
+    .card-art{background:radial-gradient(circle at 75% 25%,#fff 0,#f6eee4 45%,#e8d9c7 100%);overflow:hidden}
+    .object-shape{width:43%;height:58%;border-radius:14px 14px 18px 18px;background:linear-gradient(100deg,#d7ba98,#f1ddc6 52%,#c4a47e);box-shadow:16px 20px 23px #77583930,inset -10px 0 18px #7d573924;transform:rotate(-10deg);position:relative;transition:transform .3s}
+    .object-shape:before{content:"";position:absolute;top:-9%;left:16%;width:68%;height:12%;border-radius:5px;background:#ad8e6c}
+    .object-shape:after{content:"";position:absolute;top:32%;left:17%;width:66%;height:32%;border:1px solid #9d8066;background:#f7eee1a8;border-radius:3px}
+    .card-art[data-view="1"] .object-shape{transform:rotate(8deg) scale(.92)}
+    .card-art[data-view="2"] .object-shape{transform:rotate(-2deg) scale(1.08)}
+    .gallery-dot[aria-pressed="true"]{background:#C9572C;width:17px}
+    .quote-panel{position:fixed;z-index:40;right:0;top:0;bottom:0;width:min(100%,430px);transform:translateX(105%);transition:transform .3s ease;box-shadow:-20px 0 55px #24211e22}
+    .quote-panel.open{transform:translateX(0)}.shade{position:fixed;inset:0;background:#24211e88;z-index:39}
+    .notice{position:fixed;z-index:70;left:50%;bottom:82px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);background:#24211E;color:white;border-radius:14px;padding:12px 18px;box-shadow:0 12px 30px #24211e35}
+    .panel-scroll{overflow:auto;min-height:0}.mobile-nav{box-shadow:0 -8px 28px #32221612}
+    @media(min-width:1024px){
+      .quote-panel{position:sticky;top:22px;right:auto;bottom:auto;width:100%;height:calc(100 * min(var(--vh,1vh),1vh) - 44px);max-height:850px;transform:none!important;box-shadow:0 10px 32px rgba(76,48,29,.065)}
+      .quote-panel.desktop-closed{display:none}.shade{display:none!important}.notice{bottom:26px}
     }
-    /* Simple modal */
-    .modal-bg{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:60; }
-    .modal-bg.show{ display:flex; }
-/* --- Footer spacing so content doesn't hide behind fixed footer --- */
-body {
-  padding-bottom: 85px; /* adjust if your footer height changes */
-}
-
-/* --- Social icon hover effect in footer --- */
-footer a img {
-  filter: grayscale(40%);
-  transition: 0.2s;
-}
-footer a:hover img {
-  filter: none;
-}
-
-/* --- 💬 Pulsing effect for "Chat with Us" button (footer) --- */
-.chat-btn {
-  position: relative;
-  animation: pulse 2s infinite;
-  box-shadow: 0 0 0 rgba(72, 187, 120, 0.4);
-}
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.5);
-  }
-  70% {
-    box-shadow: 0 0 0 8px rgba(72, 187, 120, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
-  }
-}
-
-/* --- Floating buttons base styles (WhatsApp + Back to Top) --- */
-.floating-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.floating-btn:hover {
-  transform: scale(1.1);
-}
-
-/* Optional: tweak on very small screens */
-@media (max-width: 640px) {
-  body { padding-bottom: 80px; }
-}
-
-/* --- Featured Product Card --- */
-.feature-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-.feature-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-}
-.feature-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-.feature-card h3 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1e293b;
-  padding: 0.5rem 0.75rem 0 0.75rem;
-}
-.feature-card p {
-  font-size: 13px;
-  color: #475569;
-  padding: 0 0.75rem 0.75rem 0.75rem;
-}
-/* 🌟 LATEST ARRIVALS PRODUCTS CAROUSEL */
-#featuredWrap::-webkit-scrollbar { display: none; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-.feature-card {
-  flex: 0 0 180px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
-  scroll-snap-align: start;
-  cursor: pointer;
-}
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-}
-.feature-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-bottom: 1px solid #f1f5f9;
-}
-.feature-card h3 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1e293b;
-  padding: 0.4rem 0.6rem 0 0.6rem;
-  line-height: 1.3;
-  height: 36px;
-  overflow: hidden;
-}
-.feature-card p {
-  font-size: 13px;
-  color: #475569;
-  padding: 0 0.6rem 0.6rem 0.6rem;
-  font-weight: 500;
-}
-
-/* Responsive improvements */
-@media (max-width: 768px) {
-  .feature-card { flex: 0 0 140px; }
-  .feature-card img { height: 110px; }
-  .feature-card h3 { font-size: 13px; height: 32px; }
-  .feature-card p { font-size: 12px; }
-}
+    @media(prefers-reduced-motion:reduce){,:before,*:after{scroll-behavior:auto!important;transition:none!important}}
   
-/* =====================================
-   AMAZON STYLE MOBILE CARD VIEW (PREVIEW)
-   ===================================== */
+    /* Compact offer ticker that stays visible while the page scrolls */
+    .offer-banner{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:12px;padding:9px 18px;background:#24211E;color:#fff;font-size:12px;line-height:1.25;overflow:hidden;box-shadow:0 4px 14px rgba(36,33,30,.12);min-height:42px}
+    .offer-badge{background:#C9572C;color:#fff;font-size:9px;letter-spacing:.1em;font-weight:800;padding:5px 8px;border-radius:999px;white-space:nowrap;flex:0 0 auto}
+    .offer-track{display:block;overflow:hidden;min-width:0;flex:1;white-space:nowrap}
+    #live-offer-text{display:inline-block;font-weight:700;white-space:nowrap;min-width:max-content;animation:offerTicker 28s linear infinite;padding-left:100%}
+    .offer-banner:hover #live-offer-text{animation-play-state:paused}
+    @keyframes offerTicker{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+    .live-product-image{width:100%;height:100%;object-fit:contain;padding:12px}
+    .offer-progress{margin-top:10px;border:1px solid #E9DFD3;border-radius:14px;background:#fff;padding:12px;font-size:13px;line-height:1.5;color:#51483F}
+    .offer-progress strong{color:#C9572C}
+    .product-description{font-size:11px;line-height:1.35;color:#756F68;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    @media(max-width:480px){.offer-banner{padding:8px 10px;font-size:11px;gap:7px;min-height:38px}.offer-badge{font-size:8px;padding:5px 6px}#live-offer-text{animation-duration:24s}}
+    @media(prefers-reduced-motion:reduce){#live-offer-text{animation:none;padding-left:0;white-space:normal}}
 
-@media (max-width:640px){
-
-  table,
-  tbody,
-  tr,
-  td{
-    display:block !important;
-    width:100% !important;
-  }
-
-  tbody tr{
-    display:grid !important;
-    grid-template-columns: 120px 1fr;
-    grid-template-areas:
-  "check info"
-  "img   info"
-  "qty   price";
-    gap:10px;
-    padding:12px !important;
-    border-radius:14px;
-    background:#fff;
-    box-shadow:0 2px 8px rgba(0,0,0,.06);
-    margin-bottom:12px;
-  }
-
-  thead{display:none !important;}
-
-  tbody td:nth-child(1){ grid-area:check; }
-
-  tbody td:nth-child(2){ grid-area:img; }
-
-  tbody td:nth-child(2) img{
-    width:110px !important;
-    height:110px !important;
-    object-fit:cover;
-  }
-
-  /* hide SKU and category in mobile card */
-  tbody td:nth-child(3),
-  tbody td:nth-child(5){
-    display:none !important;
-  }
-
-  /* product info */
-  tbody td:nth-child(4){
-    display:block !important;
-    grid-area:info;
-    padding:0 !important;
-    font-size:16px !important;
-    font-weight:700;
-    line-height:1.3;
-  }
-
-  tbody td:nth-child(4) div{
-    font-size:13px !important;
-    font-weight:400;
-    margin-top:4px;
-  }
-
-  /* PRICE */
-tbody td:nth-child(6){
-  grid-area:price;
-  justify-self:end;
-  text-align:right;
-}
- /* HIDE STOCK IN MOBILE CARD (to avoid overlap) */
-tbody td:nth-child(7){
-  display:none !important;
-}
-
-  tbody td:nth-child(6){
-    font-size:18px !important;
-    font-weight:700;
-    color:#1d4ed8;
-    padding:0 !important;
-    display:inline-block !important;
-  }
-
-  tbody td:nth-child(7){
-    font-size:14px !important;
-    font-weight:600;
-    display:inline-block !important;
-  }
-
-  /* QTY – left side */
-tbody td:nth-child(8){
-  grid-area:qty;
-  justify-self:start;
-  padding-top:0 !important;
-}
-  .qty-btn{
-    width:36px !important;
-    height:36px !important;
-    font-size:18px;
-  }
-
-  .qty-input{
-    width:64px !important;
-    height:36px;
-    font-size:15px;
-  }
-
-  input.rowSel{
-    transform:scale(1.3);
-  }
-}
-
-
-/* ===== MOBILE AMAZON STYLE FOOTER (PREVIEW FIX) ===== */
-@media (max-width:640px){
-
-  footer{
-    padding:4px 8px !important;
-  }
-
-  footer .max-w-7xl > div:nth-child(1){
-    display:none !important;
-  }
-
-  footer .max-w-7xl{
-    flex-direction:row !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:8px !important;
-  }
-
-  footer img{
-    width:16px !important;
-    height:16px !important;
-  }
-
-  footer button,
-  footer span,
-  footer div{
-    font-size:11px !important;
-    line-height:1.1 !important;
-  }
-
-  body{
-    padding-bottom:55px !important;
-  }
-}
-
-footer .max-w-7xl{
-  flex-wrap:nowrap !important;
-  white-space:nowrap;
-  overflow-x:auto;
-}
-
-footer .max-w-7xl > div{
-  flex-direction:row !important;
-  align-items:center !important;
-  white-space:nowrap;
-}
-
-footer{
-  line-height:1 !important;
-}
-
-/* ===============================
-   Move selection strip near footer (PREVIEW)
-   =============================== */
-@media (max-width:640px){
-
-  #selectionBar{
-    bottom:52px !important;
-  }
-
-}
-
-
-@media (max-width:640px){
-  header{padding:8px 12px !important;border-radius:0 0 16px 16px;}
-  header p{display:none !important;}
-  header h1{font-size:15px !important;}
-  #btnSync{padding:6px 12px !important;font-size:12px !important;}
-  #micBtn,#clearSelBtn{font-size:18px;}
-}
-
-
-/* =====================================
-   CLEAN MODERN APP UI (Mobile only)
-===================================== */
-
-@media (max-width:640px){
-
-body{
-  background:linear-gradient(180deg,#f4f7fb,#eef2f7) !important;
-  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
-
-header{
-  background:rgba(25,118,210,.92) !important;
-  backdrop-filter: blur(10px);
-  border-radius:0 0 22px 22px;
-  padding:10px 14px !important;
-  box-shadow:0 12px 28px rgba(0,0,0,.18);
-}
-
-header h1{font-size:16px !important;font-weight:700;letter-spacing:.2px;}
-header p{display:none !important;}
-
-#btnSync{
-  background:#ffffff !important;
-  color:#1976d2 !important;
-  border-radius:999px !important;
-  padding:6px 14px !important;
-  font-size:12px !important;
-  box-shadow:0 4px 10px rgba(0,0,0,.15);
-}
-
-section.sticky-search{
-  background:transparent !important;
-  box-shadow:none !important;
-  top:54px !important;
-}
-
-.search-box{
-  border-radius:999px !important;
-  padding:12px 16px !important;
-  background:#fff !important;
-  box-shadow:0 14px 28px rgba(0,0,0,.15) !important;
-}
-
-#search{font-size:14px !important;}
-
-section.sticky-search > div > div:last-child{
-  background:#fff !important;
-  border-radius:18px;
-  padding:10px !important;
-  box-shadow:0 6px 18px rgba(0,0,0,.06);
-}
-
-tbody tr{
-  background:#ffffff !important;
-  border-radius:22px !important;
-  padding:16px !important;
-  margin-bottom:16px !important;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-tbody td:nth-child(4){font-size:16px !important;font-weight:700 !important;color:#0f172a;}
-tbody td:nth-child(4) div{color:#64748b !important;font-size:13px !important;}
-
-tbody td:nth-child(2) img{
-  border-radius:14px !important;
-  box-shadow:0 4px 12px rgba(0,0,0,.12);
-}
-
-tbody td:nth-child(6){
-  background:linear-gradient(135deg,#1976d2,#1e88e5);
-  color:#fff !important;
-  padding:6px 12px !important;
-  border-radius:999px;
-  font-size:15px !important;
-  font-weight:700;
-}
-
-tbody td:nth-child(7){font-size:13px !important;margin-left:10px;}
-
-.qty-btn{
-  background:#eef4ff !important;
-  color:#1d4ed8 !important;
-  width:38px !important;
-  height:38px !important;
-  border-radius:12px !important;
-  font-weight:700;
-}
-
-.qty-input{
-  height:38px !important;
-  border-radius:12px !important;
-  border:1px solid #dbeafe;
-}
-
-#selectionBar{
-  background:#ffffff !important;
-  border-radius:22px 22px 0 0;
-  box-shadow:0 -10px 28px rgba(0,0,0,.2);
-}
-
-#selectionBar button{
-  border-radius:999px !important;
-  padding:8px 12px !important;
-  font-size:12px !important;
-}
-
-footer{
-  background:#ffffff !important;
-  border-radius:22px 22px 0 0;
-  padding:6px 10px !important;
-  box-shadow:0 -8px 24px rgba(0,0,0,.18);
-}
-
-footer .max-w-7xl{justify-content:center !important;}
-footer img{width:20px !important;height:20px !important;}
-
-#micBtn,#clearSelBtn{font-size:18px;margin-left:6px;}
-
-body{padding-bottom:58px !important;}
-
-}
-
-</style>
-</head>
-<body>
-  <!-- Offer -->
-  <div class="offer-scroll">
-  <span id="offerText">Loading latest offer...</span>
-</div>
-<script>
-    fetch('https://script.google.com/macros/s/AKfycbw0w0URSFEBHvfJEIBDz7vM7oCs8wSfXo7BQSgniJTE9UG_OYTVUsiz8rCcf8OWIg/exec')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('offerText').innerText = data.offer;
-      })
-      .catch(err => console.error('Error fetching offer text:', err));
-  </script>
-
-  <!-- Header -->
-  <header class="px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <img src="https://cdn.jsdelivr.net/gh/adrojyomart-ops/rojyomart-images/logo.jpeg" class="w-9 h-9 rounded-full bg-white shadow-md">
-      <div>
-        <h1 class="font-semibold text-lg">RojyoMart B2B Catalog Pro+</h1>
-        <p class="text-xs opacity-90">Your Trusted Wholesale Partner</p>
-      </div>
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="/_sdk/570d53629f0b998d.data_sdk.js" type="text/javascript" integrity="sha512-JEN39+V+Nvv9ZZOVS8vNk1iA9ErZJHTdgOw9KzPuMiK7m0I+KPEr/wmTnCFIQVsDjCZgJWfGnFi1IQh2Io2qyA=="></script>
+  <script src="/_sdk/0b63fb8940df03d4.editing_sdk.js" type="text/javascript" integrity="sha512-fFkkekAA7XKU9UcNO+7a7lGi1SDVYUdIo1lpZS9YpfVovu1WAj3C/MEr/w8zt6Jwq6OKflaYkwf4eOUpMYGz9A=="></script>
+  <script src="/_sdk/f195026a424c1f85.resizing_sdk.js" type="text/javascript" integrity="sha512-8On4Z+AXh1abEzZJ9Dbn9wOvFg+k1LsAaAzKGQ7LlfgXajZ9xEmZaZ1QVzv0AWhCZtCsEpWSOG9DgLri06TS7A=="></script>
+ </head>
+ <body data-template-id="__page-root" class="w-full min-h-screen" style="background:#F7F0E6">
+  <div id="live-offer-banner" class="offer-banner" role="status"><span class="offer-badge">LIVE B2B OFFER</span><span class="offer-track"><span id="live-offer-text">Loading latest RojyoMart offers…</span></span></div>
+  <div class="shell w-full pb-24 lg:pb-0">
+   <header class="px-4 sm:px-7 xl:px-10 pt-5 lg:pt-7">
+    <div class="flex items-center justify-between gap-3"><a href="#home" class="flex items-center gap-2.5 no-underline text-inherit" aria-label="RojyoMart home"> <span class="w-10 h-10 rounded-2xl flex items-center justify-center text-white" style="background:#C9572C"><i data-lucide="boxes" class="w-5 h-5"></i></span> <span class="flex flex-col leading-tight"><strong data-template-id="brand-name" class="canva-text tracking-tight" style="font-weight: 800; color: rgb(36, 33, 30); font-style: normal; font-size: 19px;">RojyoMart</strong><small data-template-id="brand-label" class="canva-text tracking-[.13em] uppercase mt-0.5" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 9px;">B2B WHOLESALE CATALOG</small></span> </a>
+     <nav class="hidden lg:flex items-center gap-7" aria-label="Desktop navigation"><a data-template-id="desktop-home" class="canva-link font-semibold hover:underline" href="#home" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Home</a> <a data-template-id="desktop-catalog" class="canva-link font-semibold hover:underline" href="#catalog" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Catalog</a> <button id="desktop-quote" data-template-id="desktop-quote-label" class="canva-button font-semibold flex gap-2 items-center" type="button" style="color: rgb(36, 33, 30);">Quote <span id="desktop-count" class="bg-[#C9572C] text-white rounded-full min-w-6 px-1.5 text-center" aria-label="Items in quote">0</span></button>
+     </nav><button id="sync" type="button" class="rounded-full border border-[#DCCBBC] bg-white px-3.5 py-2.5 flex items-center gap-2 text-sm font-bold shrink-0 hover:border-[#C9572C]"><i data-lucide="refresh-cw" class="w-4 h-4"></i><span data-template-id="sync-label" class="canva-text" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Sync Now</span></button>
     </div>
-    <div class="flex items-center gap-2">
-      <button id="installBtn" class="hidden bg-amber-500 text-white px-3 py-2 rounded-lg text-sm shadow hover:bg-amber-600">➕ Install App</button>
-      <button id="btnSync" class="bg-white text-blue-700 font-medium px-4 py-2 rounded-xl text-sm hover:bg-blue-50 shadow">🔄 Sync Now</button>
+    <div class="mt-5 lg:mt-7 relative max-w-2xl"><label data-template-id="search-label" for="search" class="canva-text sr-only" style="font-weight: 400; font-style: normal; font-size: 15px;">Search products by name, SKU or description</label> <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#756F68]" aria-hidden="true"></i> <input id="search" data-template-id="search-input" class="canva-input w-full bg-white rounded-2xl border border-[#E9DFD3] py-3.5 pl-12 pr-4 outline-none focus:border-[#C9572C] soft-shadow" type="search" placeholder="Search name, SKU or description" style="background: rgb(255, 255, 255); color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">
     </div>
-  </header>
-
-  <!-- Search + Filters -->
-  <section class="max-w-7xl mx-auto px-4 py-3 sticky-search">
-    <div class="grid gap-3 md:grid-cols-3">
-      <!-- Search -->
-      <div class="flex items-center bg-white border rounded-2xl p-2.5 search-box md:col-span-1">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m2.35-5.65A7 7 0 1110 4a7 7 0 019 7z"/></svg>
-        <input id="search" type="search" placeholder="Search by name, SKU, or description…" class="w-full pl-2 outline-none text-sm bg-transparent"/>
+   </header>
+   <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_380px] gap-7 xl:gap-9 px-4 sm:px-7 xl:px-10 mt-6">
+    <main class="min-w-0">
+     <section id="home" data-template-id="hero" class="canva-banner relative rounded-[28px] overflow-hidden min-h-[310px] md:min-h-[340px] flex items-center" style="background:#EBDCCB">
+      <div class="relative z-10 p-7 sm:p-10 md:p-12 max-w-[560px]"><span data-template-id="hero-eyebrow" class="canva-text text-xs tracking-[.18em] font-bold uppercase" style="color: rgb(154, 74, 46); font-weight: 700; font-style: normal; font-size: 15px;">THE BETTER WAY TO BUY BULK</span>
+       <h1 data-template-id="hero-title" class="canva-text hero-title mt-3 mb-3" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 42px;">Smart Wholesale Shopping</h1>
+       <p data-template-id="hero-copy" class="canva-text max-w-[330px] leading-relaxed" style="color: rgb(81, 72, 63); font-weight: 400; font-style: normal; font-size: 16px;">Discover products. Get B2B rates. Order with ease.</p><a data-template-id="hero-cta" href="#catalog" class="canva-button inline-flex items-center gap-2 rounded-full px-5 py-3 mt-6 font-bold text-white hover:brightness-90" style="background:#C9572C;color:#FFFFFF">Explore Catalog <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>
+      </div><img data-template-id="hero-image" loading="lazy" class="canva-image hero-photo absolute right-0 bottom-0 w-[57%] md:w-[46%] h-full object-cover opacity-35 md:opacity-65" style="object-position:center" src="https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Neatly arranged parcels in a warehouse">
+      <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(90deg,#EBDCCB 20%,transparent 85%)"></div>
+     </section>
+     <section aria-label="Buying benefits" class="grid grid-cols-3 gap-2 sm:gap-3 my-5">
+      <div class="bg-white/75 rounded-2xl p-3 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 text-center sm:text-left">
+       <i data-lucide="badge-indian-rupee" class="w-5 h-5 text-[#C9572C]"></i><span data-template-id="trust-1" class="canva-text text-xs sm:text-sm font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Wholesale rates</span>
       </div>
-
-      <!-- Filters -->
-      <div class="bg-white border rounded-2xl p-2.5 flex flex-wrap items-center gap-2 md:col-span-2">
-        <select id="filterCategory" class="border rounded-lg px-3 py-2 text-sm">
-          <option value="">All Categories</option>
-        </select>
-        <div class="flex items-center gap-2">
-          <span class="chip">₹</span>
-          <input id="minPrice" type="number" class="border rounded-lg px-2 py-2 w-28 text-sm" placeholder="Min">
-          <span>—</span>
-          <input id="maxPrice" type="number" class="border rounded-lg px-2 py-2 w-28 text-sm" placeholder="Max">
+      <div class="bg-white/75 rounded-2xl p-3 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 text-center sm:text-left">
+       <i data-lucide="package" class="w-5 h-5 text-[#C9572C]"></i><span data-template-id="trust-2" class="canva-text text-xs sm:text-sm font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Bulk buying</span>
+      </div>
+      <div class="bg-white/75 rounded-2xl p-3 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 text-center sm:text-left">
+       <i data-lucide="message-circle" class="w-5 h-5 text-[#C9572C]"></i><span data-template-id="trust-3" class="canva-text text-xs sm:text-sm font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">WhatsApp support</span>
+      </div>
+     </section>
+     <section id="catalog" class="scroll-mt-6 pt-3">
+      <div class="flex items-end justify-between gap-3">
+       <div>
+        <span data-template-id="catalog-eyebrow" class="canva-text uppercase tracking-[.16em] text-xs font-bold" style="color: rgb(201, 87, 44); font-weight: 400; font-style: normal; font-size: 15px;">EXPLORE THE RANGE</span>
+        <h2 data-template-id="catalog-heading" class="canva-text font-extrabold tracking-tight mt-1" style="color: rgb(36, 33, 30); font-weight: 800; font-style: normal; font-size: 26px;">Wholesale catalog</h2>
+       </div><span id="result-count" class="text-xs text-[#756F68] whitespace-nowrap" aria-live="polite">4 products</span>
+      </div>
+      <div id="categories" class="flex gap-2 overflow-x-auto py-4" aria-label="Product categories"><button data-category="all" aria-pressed="true" data-template-id="category-all" class="canva-button chip active whitespace-nowrap rounded-full border border-[#E9DFD3] px-4 py-2 text-sm font-semibold" style="background: rgb(36, 33, 30); color: rgb(255, 255, 255); font-weight: 400; font-style: normal; font-size: 15px;">All products</button> <button data-category="essentials" aria-pressed="false" data-template-id="category-essentials" class="canva-button chip whitespace-nowrap rounded-full border border-[#E9DFD3] bg-white px-4 py-2 text-sm font-semibold" style="background: rgb(255, 255, 255); color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Essentials</button> <button data-category="home" aria-pressed="false" data-template-id="category-home" class="canva-button chip whitespace-nowrap rounded-full border border-[#E9DFD3] bg-white px-4 py-2 text-sm font-semibold" style="background: rgb(255, 255, 255); color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Home</button> <button data-category="accessories" aria-pressed="false" data-template-id="category-accessories" class="canva-button chip whitespace-nowrap rounded-full border border-[#E9DFD3] bg-white px-4 py-2 text-sm font-semibold" style="background: rgb(255, 255, 255); color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Accessories</button>
+      </div>
+      <div class="flex gap-2 mb-4"><button id="filter-toggle" type="button" aria-expanded="false" aria-controls="filters" class="bg-white border border-[#E9DFD3] rounded-xl px-4 py-2.5 inline-flex items-center gap-2 text-sm font-bold"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i><span data-template-id="filter-label" class="canva-text" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Filter</span></button> <label data-template-id="sort-label" for="sort" class="canva-text sr-only" style="font-weight: 400; font-style: normal; font-size: 15px;">Sort products</label> <select id="sort" class="bg-white border border-[#E9DFD3] rounded-xl px-3 py-2.5 text-sm font-bold min-w-0" aria-label="Sort products"><option value="featured">Sort: Featured</option><option value="name">Name A–Z</option><option value="reverse">Name Z–A</option></select>
+      </div>
+      <div id="filters" hidden="" class="bg-white rounded-2xl p-4 mb-4 border border-[#E9DFD3]">
+       <h3 data-template-id="filter-heading" class="canva-text font-bold mb-3" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 18px;">Refine catalog</h3>
+       <div class="flex items-center gap-3 mb-3">
+        <input id="stock-only" type="checkbox" class="accent-[#C9572C] w-5 h-5"><label data-template-id="stock-filter-label" for="stock-only" class="canva-text text-sm" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">In-stock only</label>
+       </div>
+       <p data-template-id="stock-filter-note" class="canva-text text-xs mb-4" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Live stock filtering becomes available when product sync is connected.</p>
+       <div class="flex flex-wrap gap-3">
+        <div>
+         <label data-template-id="min-price-label" for="min-price" class="canva-text block text-xs font-semibold mb-1" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Min price (₹)</label><input id="min-price" type="number" min="0" inputmode="numeric" placeholder="—" class="w-32 border border-[#E9DFD3] rounded-xl p-2.5">
         </div>
-        <label class="flex items-center gap-2 ml-auto text-sm">
-          <input type="checkbox" id="inStockOnly" class="w-4 h-4"> In Stock Only
-        </label>
-        <button id="btnClearFilters" class="text-blue-700 text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Reset</button>
-      </div>
-    </div>
-  </section>
-<script>
-// 🌟 URL Based Auto Search
-document.addEventListener("DOMContentLoaded", () => {
-  const url = new URL(window.location.href);
-  const q = url.searchParams.get("search");
-  if (q) {
-    document.getElementById("search").value = q;
-    setTimeout(() => render(), 300);
-  }
-});
-</script>
-  
-  <!-- Table -->
-<!-- 🌟 FEATURED PRODUCTS (PROFESSIONAL CAROUSEL) -->
-<section class="max-w-7xl mx-auto px-4 mt-6">
-  <div class="flex items-center justify-between mb-3">
-    <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
-      🌟 LATEST ARRIVALS
-    </h2>
-    <button onclick="document.getElementById('featuredWrap').scrollLeft -= 300" class="text-gray-400 hover:text-blue-600 transition hidden sm:block">←</button>
-    <button onclick="document.getElementById('featuredWrap').scrollLeft += 300" class="text-gray-400 hover:text-blue-600 transition hidden sm:block">→</button>
-  </div>
-
-  <div id="featuredWrap" 
-       class="flex overflow-x-auto gap-4 pb-3 snap-x snap-mandatory scroll-smooth scrollbar-hide px-1">
-    <!-- JS will inject featured cards here -->
-  </div>
-</section>
-
-
-  <main class="max-w-7xl mx-auto px-4 mt-4 mb-24">
-    <table class="w-full text-sm bg-white rounded-2xl shadow-md overflow-hidden">
-      <thead class="bg-blue-50 text-blue-900 text-xs uppercase">
-        <tr>
-          <th class="p-3 text-center">Select</th>
-          <th class="p-3">Image</th>
-          <th class="p-3">SKU</th>
-          <th class="p-3">Product/Description</th>
-          <th class="p-3">Category</th>
-          <th class="p-3 text-right">Price</th>
-          <th class="p-3 text-right">Stock</th>
-          <th class="p-3 text-right">Qty</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    <div id="emptyState" class="p-8 text-center text-gray-500 hidden">No products found.</div>
-  </main>
-
-  <!-- Floating Quote Bar (with export) -->
-  <div id="selectionBar" class="fixed bottom-36 inset-x-0 bg-white border-t z-50 hidden shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-2 items-center justify-between">
-      <div class="text-sm"><span id="selCount">0</span> items • <b id="selSubtotal">₹0</b></div>
-      <div class="flex flex-wrap gap-2">
-        <button id="btnExportExcel" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-emerald-700 shadow-md">🧩 Export Excel</button>
-        <button id="btnExportPDF" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-indigo-700 shadow-md">🧾 Export PDF</button>
-        <button id="btnShare" class="bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-green-700 shadow-md">💬 Send Quote</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Back to Top -->
-  <button id="backToTop" title="Back to Top">↑</button>
-
-  <!-- Image Modal -->
-  <div id="imgModal" class="modal-bg">
-    <div class="bg-white rounded-2xl p-2 max-w-3xl w-[92%] shadow-2xl relative">
-      <button id="imgClose" class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full shadow">✕</button>
-      <img id="imgPreview" src="" alt="Preview" class="w-full h-auto rounded-xl object-contain"/>
-      <div id="imgCaption" class="text-sm text-gray-600 mt-2 px-1"></div>
-    </div>
-  </div>
-<!-- 🆕 PRODUCT DETAIL MODAL -->
-<div id="productModal" class="modal-bg">
-  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-[92%] relative overflow-hidden">
-    <button id="closeProductModal" class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full shadow">✕</button>
-
-    <div class="grid md:grid-cols-2 gap-4 p-4">
-      <div>
-        <img id="pImg" src="" alt="Product" class="w-full h-auto rounded-lg object-contain border">
-      </div>
-      <div>
-        <h2 id="pName" class="text-lg font-semibold text-gray-800 mb-1"></h2>
-        <p id="pSKU" class="text-sm text-gray-500 mb-2"></p>
-        <p id="pDesc" class="text-sm text-gray-700 mb-3"></p>
-        <p><b>Category:</b> <span id="pCat" class="text-gray-600"></span></p>
-        <p><b>Stock:</b> <span id="pStock" class="text-green-600 font-medium"></span></p>
-        <p><b>Price:</b> <span id="pPrice" class="text-blue-700 font-semibold text-lg"></span></p>
-
-        <div class="mt-4 flex items-center gap-2">
-          <input id="pQty" type="number" min="1" value="1"
-                 class="border rounded-lg px-3 py-2 w-24 text-sm" />
-          <button id="addToQuote"
-                  class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">
-            ➕ Add to Quote
-          </button>
+        <div>
+         <label data-template-id="max-price-label" for="max-price" class="canva-text block text-xs font-semibold mb-1" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Max price (₹)</label><input id="max-price" type="number" min="0" inputmode="numeric" placeholder="—" class="w-32 border border-[#E9DFD3] rounded-xl p-2.5">
         </div>
+       </div>
+       <p data-template-id="price-filter-note" class="canva-text text-xs mt-3" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Price filtering becomes available when live prices are connected.</p>
       </div>
-    </div>
-  </div>
-</div>
-
-  <!-- Client Quote Form Modal -->
-  <div id="quoteModal" class="modal-bg">
-    <div class="bg-white rounded-2xl p-5 w-[92%] max-w-xl shadow-2xl relative">
-      <button id="quoteClose" class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full shadow">✕</button>
-      <h3 class="text-lg font-semibold mb-3">Buyer Details</h3>
-      <form id="quoteForm" class="grid gap-3">
-        <input class="border rounded-lg px-3 py-2" id="buyerName" placeholder="Full Name *" required>
-        <input class="border rounded-lg px-3 py-2" id="buyerCompany" placeholder="Company">
-        <input class="border rounded-lg px-3 py-2" id="buyerPhone" placeholder="Phone/WhatsApp *" required>
-        <input class="border rounded-lg px-3 py-2" id="buyerEmail" placeholder="GSTN (optional)">
-        <textarea class="border rounded-lg px-3 py-2" id="buyerNotes" placeholder="Notes / Requirements"></textarea>
-        <div class="flex items-center justify-end gap-2 mt-2">
-          <button type="button" id="quoteCancel" class="px-4 py-2 rounded-lg bg-gray-100">Cancel</button>
-          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 text-white">Continue to WhatsApp</button>
+      <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
+       <article data-template-id="product-card-1" data-key="p1" data-category="essentials" data-search="product name sku-001 essentials everyday supply" class="canva-card product-card bg-white rounded-[22px] p-2.5 sm:p-3 soft-shadow min-w-0" style="background: rgb(255, 255, 255);">
+        <div class="card-art rounded-[17px] aspect-[1.1] flex items-center justify-center relative" data-view="0">
+         <div class="object-shape"></div><span data-template-id="product-tag-1" class="canva-tag absolute left-2 top-2 bg-white/90 rounded-full px-2 py-1 text-[10px] font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">ESSENTIALS</span>
         </div>
+        <div class="gallery flex justify-center gap-1.5 py-2" aria-label="Product image views">
+         <button type="button" class="gallery-dot bg-[#C9572C] w-[17px] h-1.5 rounded-full" aria-label="View image 1" aria-pressed="true" data-view="0"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 2" aria-pressed="false" data-view="1"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 3" aria-pressed="false" data-view="2"></button>
+        </div>
+        <div class="px-1 pb-1">
+         <h3 data-template-id="product-name-1" class="canva-text font-bold leading-tight" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 18px;">Product name</h3>
+         <p data-template-id="product-sku-1" class="canva-text text-xs mt-1" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">SKU: SKU-001 · Placeholder</p>
+         <div class="mt-3 flex items-end justify-between gap-1">
+          <div>
+           <p data-template-id="price-caption-1" class="canva-text text-[11px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Wholesale price</p><strong data-template-id="product-price-1" class="canva-text" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 19px;">₹—</strong>
+          </div><span data-template-id="product-stock-1" class="canva-text text-[10px] text-right max-w-[75px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Check live stock</span>
+         </div>
+         <div class="flex items-center justify-between mt-3 gap-1">
+          <div class="stepper flex items-center border border-[#E9DFD3] rounded-xl">
+           <button type="button" class="minus p-2" aria-label="Decrease quantity"><i data-lucide="minus" class="w-3 h-3"></i></button><output class="qty w-5 text-center text-sm font-bold" aria-label="Quantity">1</output><button type="button" class="plus p-2" aria-label="Increase quantity"><i data-lucide="plus" class="w-3 h-3"></i></button>
+          </div>
+         </div><button type="button" data-template-id="add-button-1" class="canva-button add w-full mt-3 rounded-xl py-2.5 text-white text-xs sm:text-sm font-bold hover:brightness-90" style="background: rgb(201, 87, 44); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Add to Quote</button>
+        </div>
+       </article>
+       <article data-template-id="product-card-2" data-key="p2" data-category="home" data-search="product name 02 sku-002 home household" class="canva-card product-card bg-white rounded-[22px] p-2.5 sm:p-3 soft-shadow min-w-0" style="background: rgb(255, 255, 255);">
+        <div class="card-art rounded-[17px] aspect-[1.1] flex items-center justify-center relative" data-view="0">
+         <div class="object-shape"></div><span data-template-id="product-tag-2" class="canva-tag absolute left-2 top-2 bg-white/90 rounded-full px-2 py-1 text-[10px] font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">HOME</span>
+        </div>
+        <div class="gallery flex justify-center gap-1.5 py-2" aria-label="Product image views">
+         <button type="button" class="gallery-dot bg-[#C9572C] w-[17px] h-1.5 rounded-full" aria-label="View image 1" aria-pressed="true" data-view="0"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 2" aria-pressed="false" data-view="1"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 3" aria-pressed="false" data-view="2"></button>
+        </div>
+        <div class="px-1 pb-1">
+         <h3 data-template-id="product-name-2" class="canva-text font-bold leading-tight" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 18px;">Product name 02</h3>
+         <p data-template-id="product-sku-2" class="canva-text text-xs mt-1" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">SKU: SKU-002 · Placeholder</p>
+         <div class="mt-3 flex items-end justify-between gap-1">
+          <div>
+           <p data-template-id="price-caption-2" class="canva-text text-[11px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Wholesale price</p><strong data-template-id="product-price-2" class="canva-text" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 19px;">₹—</strong>
+          </div><span data-template-id="product-stock-2" class="canva-text text-[10px] text-right max-w-[75px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Live stock status</span>
+         </div>
+         <div class="flex items-center justify-between mt-3 gap-1">
+          <div class="stepper flex items-center border border-[#E9DFD3] rounded-xl">
+           <button type="button" class="minus p-2" aria-label="Decrease quantity"><i data-lucide="minus" class="w-3 h-3"></i></button><output class="qty w-5 text-center text-sm font-bold" aria-label="Quantity">1</output><button type="button" class="plus p-2" aria-label="Increase quantity"><i data-lucide="plus" class="w-3 h-3"></i></button>
+          </div>
+         </div><button type="button" data-template-id="add-button-2" class="canva-button add w-full mt-3 rounded-xl py-2.5 text-white text-xs sm:text-sm font-bold hover:brightness-90" style="background: rgb(201, 87, 44); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Add to Quote</button>
+        </div>
+       </article>
+       <article data-template-id="product-card-3" data-key="p3" data-category="accessories" data-search="product name 03 sku-003 accessories supplies" class="canva-card product-card bg-white rounded-[22px] p-2.5 sm:p-3 soft-shadow min-w-0" style="background: rgb(255, 255, 255);">
+        <div class="card-art rounded-[17px] aspect-[1.1] flex items-center justify-center relative" data-view="0">
+         <div class="object-shape"></div><span data-template-id="product-tag-3" class="canva-tag absolute left-2 top-2 bg-white/90 rounded-full px-2 py-1 text-[10px] font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">ACCESSORIES</span>
+        </div>
+        <div class="gallery flex justify-center gap-1.5 py-2" aria-label="Product image views">
+         <button type="button" class="gallery-dot bg-[#C9572C] w-[17px] h-1.5 rounded-full" aria-label="View image 1" aria-pressed="true" data-view="0"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 2" aria-pressed="false" data-view="1"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 3" aria-pressed="false" data-view="2"></button>
+        </div>
+        <div class="px-1 pb-1">
+         <h3 data-template-id="product-name-3" class="canva-text font-bold leading-tight" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 18px;">Product name 03</h3>
+         <p data-template-id="product-sku-3" class="canva-text text-xs mt-1" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">SKU: SKU-003 · Placeholder</p>
+         <div class="mt-3 flex items-end justify-between gap-1">
+          <div>
+           <p data-template-id="price-caption-3" class="canva-text text-[11px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Wholesale price</p><strong data-template-id="product-price-3" class="canva-text" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 19px;">₹—</strong>
+          </div><span data-template-id="product-stock-3" class="canva-text text-[10px] text-right max-w-[75px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Check live stock</span>
+         </div>
+         <div class="flex items-center justify-between mt-3 gap-1">
+          <div class="stepper flex items-center border border-[#E9DFD3] rounded-xl">
+           <button type="button" class="minus p-2" aria-label="Decrease quantity"><i data-lucide="minus" class="w-3 h-3"></i></button><output class="qty w-5 text-center text-sm font-bold" aria-label="Quantity">1</output><button type="button" class="plus p-2" aria-label="Increase quantity"><i data-lucide="plus" class="w-3 h-3"></i></button>
+          </div>
+         </div><button type="button" data-template-id="add-button-3" class="canva-button add w-full mt-3 rounded-xl py-2.5 text-white text-xs sm:text-sm font-bold hover:brightness-90" style="background: rgb(201, 87, 44); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Add to Quote</button>
+        </div>
+       </article>
+       <article data-template-id="product-card-4" data-key="p4" data-category="essentials" data-search="product name 04 sku-004 essentials general supply" class="canva-card product-card bg-white rounded-[22px] p-2.5 sm:p-3 soft-shadow min-w-0" style="background: rgb(255, 255, 255);">
+        <div class="card-art rounded-[17px] aspect-[1.1] flex items-center justify-center relative" data-view="0">
+         <div class="object-shape"></div><span data-template-id="product-tag-4" class="canva-tag absolute left-2 top-2 bg-white/90 rounded-full px-2 py-1 text-[10px] font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">ESSENTIALS</span>
+        </div>
+        <div class="gallery flex justify-center gap-1.5 py-2" aria-label="Product image views">
+         <button type="button" class="gallery-dot bg-[#C9572C] w-[17px] h-1.5 rounded-full" aria-label="View image 1" aria-pressed="true" data-view="0"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 2" aria-pressed="false" data-view="1"></button><button type="button" class="gallery-dot bg-[#D7CEC4] w-1.5 h-1.5 rounded-full" aria-label="View image 3" aria-pressed="false" data-view="2"></button>
+        </div>
+        <div class="px-1 pb-1">
+         <h3 data-template-id="product-name-4" class="canva-text font-bold leading-tight" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 18px;">Product name 04</h3>
+         <p data-template-id="product-sku-4" class="canva-text text-xs mt-1" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">SKU: SKU-004 · Placeholder</p>
+         <div class="mt-3 flex items-end justify-between gap-1">
+          <div>
+           <p data-template-id="price-caption-4" class="canva-text text-[11px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Wholesale price</p><strong data-template-id="product-price-4" class="canva-text" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 19px;">₹—</strong>
+          </div><span data-template-id="product-stock-4" class="canva-text text-[10px] text-right max-w-[75px]" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Live stock status</span>
+         </div>
+         <div class="flex items-center justify-between mt-3 gap-1">
+          <div class="stepper flex items-center border border-[#E9DFD3] rounded-xl">
+           <button type="button" class="minus p-2" aria-label="Decrease quantity"><i data-lucide="minus" class="w-3 h-3"></i></button><output class="qty w-5 text-center text-sm font-bold" aria-label="Quantity">1</output><button type="button" class="plus p-2" aria-label="Increase quantity"><i data-lucide="plus" class="w-3 h-3"></i></button>
+          </div>
+         </div><button type="button" data-template-id="add-button-4" class="canva-button add w-full mt-3 rounded-xl py-2.5 text-white text-xs sm:text-sm font-bold hover:brightness-90" style="background: rgb(201, 87, 44); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Add to Quote</button>
+        </div>
+       </article>
+      </div>
+      <p id="no-results" hidden="" class="bg-white rounded-2xl p-8 text-center text-[#756F68]">No matching placeholder products. Try another search or category.</p>
+      <p id="catalog-disclaimer" data-template-id="catalog-disclaimer" class="canva-text text-xs mt-5 leading-relaxed" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Product names, wholesale prices and stock are synced from the live RojyoMart catalog. Final availability is confirmed when your quote is reviewed.</p>
+     </section>
+     <footer class="mt-10 py-6 border-t border-[#DFD3C5] flex flex-wrap items-center justify-between gap-3 text-sm"><span data-template-id="footer-brand" class="canva-text font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">RojyoMart · B2B Wholesale Catalog</span>
+      <div class="flex gap-5">
+       <button id="policy-link" type="button" data-template-id="policy-link-label" class="canva-link underline underline-offset-4" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Policy</button><button id="contact-link" type="button" data-template-id="contact-link-label" class="canva-link underline underline-offset-4" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Contact</button>
+      </div>
+     </footer>
+    </main>
+    <aside id="quote-panel" class="quote-panel bg-white lg:rounded-[24px] flex flex-col" aria-label="Quote summary" aria-hidden="true">
+     <div class="p-5 border-b border-[#E9DFD3] flex items-center justify-between">
+      <div>
+       <p data-template-id="quote-eyebrow" class="canva-text uppercase tracking-[.14em] text-xs font-bold" style="color: rgb(201, 87, 44); font-weight: 400; font-style: normal; font-size: 15px;">YOUR SELECTION</p>
+       <h2 data-template-id="quote-title" class="canva-text font-extrabold mt-1" style="color: rgb(36, 33, 30); font-weight: 800; font-style: normal; font-size: 23px;">Your quote</h2>
+      </div><button id="close-quote" type="button" class="rounded-full bg-[#F7F0E6] p-2.5" aria-label="Close quote"><i data-lucide="x" class="w-5 h-5"></i></button>
+     </div>
+     <div class="panel-scroll flex-1 p-5">
+      <div id="quote-empty" class="text-center border border-dashed border-[#DCCBBC] rounded-2xl px-5 py-9">
+       <i data-lucide="shopping-bag" class="w-8 h-8 mx-auto mb-3 text-[#C9572C]"></i>
+       <h3 data-template-id="empty-title" class="canva-text font-bold" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 18px;">Your quote is empty</h3>
+       <p data-template-id="empty-copy" class="canva-text text-sm mt-2" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Add products from the catalog to start a quote.</p><button id="browse-products" type="button" data-template-id="browse-label" class="canva-button mt-4 text-sm font-bold underline" style="color: rgb(201, 87, 44); font-weight: 400; font-style: normal; font-size: 15px;">Browse products</button>
+      </div>
+      <div id="quote-items" class="space-y-2" aria-live="polite"></div>
+      <div class="mt-5 rounded-2xl p-4" style="background:#F7F0E6">
+       <div class="flex justify-between gap-2">
+        <span data-template-id="subtotal-label" class="canva-text font-semibold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Quote subtotal</span><strong data-template-id="subtotal-value" class="canva-text" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 15px;">₹—</strong>
+       </div>
+       <p data-template-id="moq-label" class="canva-text text-sm mt-2 font-semibold" style="color: rgb(154, 74, 46); font-weight: 400; font-style: normal; font-size: 15px;">Minimum order value: ₹5,000</p>
+       <p id="moq-status" data-template-id="moq-note" class="canva-text text-xs mt-1" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Loading live prices…</p><div id="offer-progress" class="offer-progress">Add products to see your order value and available offers.</div>
+      </div>
+      <form id="buyer-form" class="mt-6 space-y-3">
+       <h3 data-template-id="buyer-title" class="canva-text font-bold" style="color: rgb(36, 33, 30); font-weight: 700; font-style: normal; font-size: 18px;">Buyer details</h3>
+       <div>
+        <label data-template-id="name-label" for="buyer-name" class="canva-text block text-sm font-semibold mb-1" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Name</label><input id="buyer-name" required="" autocomplete="name" class="w-full rounded-xl border border-[#DFD3C5] px-3 py-2.5" type="text">
+       </div>
+       <div>
+        <label data-template-id="phone-label" for="buyer-phone" class="canva-text block text-sm font-semibold mb-1" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Phone</label><input id="buyer-phone" required="" autocomplete="tel" inputmode="tel" pattern="[0-9+ ()-]{8,18}" class="w-full rounded-xl border border-[#DFD3C5] px-3 py-2.5" type="tel">
+       </div>
+       <div>
+        <label data-template-id="business-label" for="buyer-business" class="canva-text block text-sm font-semibold mb-1" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Business</label><input id="buyer-business" required="" autocomplete="organization" class="w-full rounded-xl border border-[#DFD3C5] px-3 py-2.5" type="text">
+       </div><button id="send-whatsapp" data-template-id="whatsapp-cta" type="submit" class="canva-button w-full rounded-xl py-3.5 text-white font-bold flex justify-center items-center gap-2 hover:brightness-90" style="background:#C9572C;color:#FFFFFF"><i data-lucide="message-circle" class="w-5 h-5"></i><span data-template-id="whatsapp-cta-text" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Send Quote on WhatsApp</span></button>
       </form>
-    </div>
-  </div>
-
-  <!-- ✅ FIXED FOOTER -->
-<footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-  <div class="max-w-7xl mx-auto px-3 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[13px] text-gray-700 leading-snug">
-
-    <!-- Company Info -->
-    <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-      <div class="font-semibold text-gray-800">🏢 RojyoMart</div>
-      <div class="hidden sm:block text-gray-400">|</div>
-      <div>
-        29/1G/1 Kachchi Sarai,Tajganj, Agra — 282001 |
-        GSTIN: <b>09BFNPK1316J1ZB</b>
+      <p data-template-id="whatsapp-note" class="canva-text text-xs mt-2 leading-relaxed" style="color: rgb(117, 111, 104); font-weight: 400; font-style: normal; font-size: 15px;">Opens a draft in WhatsApp. Choose your recipient and review before sending; prices are pending.</p>
+      <div class="grid grid-cols-3 gap-2 mt-5"><button type="button" data-export="excel" data-template-id="export-excel" class="canva-button border border-[#DFD3C5] rounded-xl px-1 py-2.5 text-xs font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Export Excel</button> <button type="button" data-export="csv" data-template-id="export-csv" class="canva-button border border-[#DFD3C5] rounded-xl px-1 py-2.5 text-xs font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Export CSV</button> <button type="button" data-export="pdf" data-template-id="export-pdf" class="canva-button border border-[#DFD3C5] rounded-xl px-1 py-2.5 text-xs font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Export PDF</button>
       </div>
-    </div>
-
-    <!-- Right Side: Social + Chat + Terms -->
-    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-      <!-- Social Icons -->
-      <div class="flex items-center gap-3">
-        <a href="https://www.facebook.com/rojyomart" target="_blank" title="Facebook" class="hover:scale-110 transition">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="w-4 h-4">
-        </a>
-        <a href="https://www.instagram.com/rojyomart" target="_blank" title="Instagram" class="hover:scale-110 transition">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-4 h-4">
-        </a>
-        <a href="https://www.linkedin.com/company/rojyomart" target="_blank" title="LinkedIn" class="hover:scale-110 transition">
-          <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" class="w-4 h-4">
-        </a>
-        <a href="https://www.youtube.com/@rojyomart" target="_blank" title="YouTube" class="hover:scale-110 transition">
-          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" class="w-4 h-4">
-        </a>
-      </div>
-
-      <!-- Footer Links -->
-      <div class="flex items-center gap-2 text-[12px]">
-        <button id="termsBtn" class="text-blue-600 underline hover:text-blue-800 transition">Terms</button>
-        <span>|</span>
-        <button id="privacyBtn" class="text-blue-600 underline hover:text-blue-800 transition">Privacy</button>
-      </div>
-
-      <div class="text-gray-600 text-[12px] sm:ml-2">
-        © <span id="year"></span> RojyoMart
-      </div>
-    </div>
+     </div>
+    </aside>
+   </div>
   </div>
-</footer>
-
-<!-- ✅ TERMS MODAL -->
-<div id="termsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999]">
-  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-[90%] p-5 relative">
-    <button id="closeTerms" class="absolute top-2 right-3 text-gray-400 hover:text-gray-600 text-lg">✖</button>
-    <h2 class="text-lg font-semibold text-gray-800 mb-3">📜 Terms & Conditions</h2>
-    <ul class="list-disc list-inside space-y-1 text-[13px] text-gray-600 leading-relaxed">
-       <li>All prices are exclusive of GST and Packing Charges unless stated otherwise.</li>
-      <li>In dropshipping orders, a packing charge of ₹20 per product applies.</li>
-      <li>Shipping charges vary based on order volume and delivery region.</li>
-      <li>100% advance payment is required before dispatch.</li>
-      <li>Bulk order deliveries are processed within 2–5 working days after confirmation.</li>
-      <li>No return or replacement is accepted for dropshipping or custom-made items.</li>
-    </ul>
-    <div class="mt-4 text-right">
-      <button id="closeTerms2" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition">OK</button>
+  <nav class="mobile-nav fixed bottom-0 inset-x-0 z-30 bg-white border-t border-[#E9DFD3] grid grid-cols-4 lg:hidden" aria-label="Mobile navigation"><a href="#home" class="flex flex-col items-center gap-1 py-2 text-[#C9572C]"><i data-lucide="house" class="w-5 h-5"></i><span data-template-id="nav-home" class="canva-text text-[11px] font-bold" style="color: rgb(201, 87, 44); font-weight: 400; font-style: normal; font-size: 15px;">Home</span></a> <a href="#catalog" class="flex flex-col items-center gap-1 py-2"><i data-lucide="layout-grid" class="w-5 h-5"></i><span data-template-id="nav-categories" class="canva-text text-[11px] font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Categories</span></a> <button id="mobile-quote" type="button" class="flex flex-col items-center gap-1 py-2 relative"><span class="relative"><i data-lucide="shopping-bag" class="w-5 h-5"></i><span id="mobile-count" class="absolute -top-2 -right-3 bg-[#C9572C] text-white rounded-full min-w-4 px-1 text-[10px] font-bold">0</span></span><span data-template-id="nav-quote" class="canva-text text-[11px] font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">Quote</span></button> <button id="mobile-whatsapp" type="button" class="flex flex-col items-center gap-1 py-2"><i data-lucide="message-circle" class="w-5 h-5"></i><span data-template-id="nav-whatsapp" class="canva-text text-[11px] font-bold" style="color: rgb(36, 33, 30); font-weight: 400; font-style: normal; font-size: 15px;">WhatsApp</span></button>
+  </nav>
+  <div id="shade" class="shade" hidden=""></div>
+  <div id="notice" role="status" aria-live="polite" class="notice" hidden=""></div>
+  <div id="info-overlay" hidden="" class="fixed inset-0 z-[60] bg-[#24211e88] p-4 flex items-center justify-center">
+   <section class="bg-white rounded-[24px] p-6 max-w-sm w-full soft-shadow" aria-label="Information">
+    <div class="flex justify-between items-center">
+     <h2 id="info-title" class="font-extrabold text-xl"></h2><button id="info-close" type="button" class="p-2 rounded-full bg-[#F7F0E6]" aria-label="Close information"><i data-lucide="x" class="w-5 h-5"></i></button>
     </div>
+    <p id="info-copy" class="mt-4 text-sm leading-relaxed text-[#756F68]"></p>
+   </section>
   </div>
-</div>
-
-<!-- ✅ PRIVACY MODAL -->
-<div id="privacyModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999]">
-  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-[90%] p-5 relative">
-    <button id="closePrivacy" class="absolute top-2 right-3 text-gray-400 hover:text-gray-600 text-lg">✖</button>
-    <h2 class="text-lg font-semibold text-gray-800 mb-3">🔒 Privacy Policy</h2>
-    <ul class="list-disc list-inside space-y-1 text-[13px] text-gray-600 leading-relaxed">
-      <li>We collect only the information necessary for order processing.</li>
-      <li>Your data is kept confidential and not shared with third parties.</li>
-      <li>Payments are handled securely via trusted gateways.</li>
-      <li>We may contact you for order confirmation or promotions.</li>
-      <li>By using our services, you agree to our data handling policy.</li>
-    </ul>
-    <div class="mt-4 text-right">
-      <button id="closePrivacy2" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition">OK</button>
+  <template id="quote-row-template">
+   <div class="quote-row border border-[#E9DFD3] rounded-xl p-3 flex items-center gap-3">
+    <div class="w-12 h-12 rounded-lg shrink-0 bg-[#EBDCCB] flex items-center justify-center">
+     <i data-lucide="package" class="w-5 h-5 text-[#9A4A2E]"></i>
     </div>
-  </div>
-</div>
-
-<!-- ✅ Footer Script -->
-<script>
-  // Auto-update footer year
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  // Terms Modal Logic
-  const termsModal = document.getElementById("termsModal");
-  document.getElementById("termsBtn").addEventListener("click", () => termsModal.classList.remove("hidden"));
-  document.getElementById("closeTerms").addEventListener("click", () => termsModal.classList.add("hidden"));
-  document.getElementById("closeTerms2").addEventListener("click", () => termsModal.classList.add("hidden"));
-
-  // Privacy Modal Logic
-  const privacyModal = document.getElementById("privacyModal");
-  document.getElementById("privacyBtn").addEventListener("click", () => privacyModal.classList.remove("hidden"));
-  document.getElementById("closePrivacy").addEventListener("click", () => privacyModal.classList.add("hidden"));
-  document.getElementById("closePrivacy2").addEventListener("click", () => privacyModal.classList.add("hidden"));
-
-  // Close popup on outside click
-  window.addEventListener("click", (e) => {
-    if (e.target === termsModal) termsModal.classList.add("hidden");
-    if (e.target === privacyModal) privacyModal.classList.add("hidden");
-  });
-</script>
-
-
-<script>
-(function(){
-  const micBtn = document.getElementById("micBtn");
-  const clearSelBtn = document.getElementById("clearSelBtn");
-
-  if(micBtn && ("webkitSpeechRecognition" in window || "SpeechRecognition" in window)){
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-IN";
-
-    micBtn.addEventListener("click", ()=>{
-      recognition.start();
-      micBtn.textContent="🎙️";
+    <div class="min-w-0 flex-1">
+     <div class="row-name text-sm font-bold truncate"></div>
+     <div class="row-meta text-xs text-[#756F68]"></div>
+    </div><button type="button" class="remove-row p-2 text-[#9A4A2E]" aria-label="Remove item"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+   </div>
+  </template>
+  <script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const API_BASE = 'https://script.google.com/macros/s/AKfycbwUGLtAezSNaFW6-5HgCQ9aBGtZx3hU8EMQTKJR_Gp9PddJd-giaVM4GCmfSfKKzN8/exec?action=list';
+  const OFFER_API = 'https://script.google.com/macros/s/AKfycbw0w0URSFEBHvfJEIBDz7vM7oCs8wSfXo7BQSgniJTE9UG_OYTVUsiz8rCcf8OWIg/exec';
+  const MOQ = 5000;
+  let RAW = [], quote = new Map(), category = 'all', noticeTimer, offerText = '', offerTiers = [];
+  const fmt = n => new Intl.NumberFormat('en-IN',{maximumFractionDigits:2}).format(Number(n)||0);
+  const num = v => Number(String(v ?? '').replace(/[^0-9.-]/g,'')) || 0;
+  const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function notify(message){const el=$('#notice');el.textContent=message;el.hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>el.hidden=true,4600)}
+  function getName(r){return String(r.Name||r.name||r.ProductName||r['Product Name']||'Unnamed product').trim()}
+  function getSku(r){return String(r.SKU||r.Sku||r.sku||r.Code||'').trim()}
+  function getPrice(r){return num(r.Price ?? r.price ?? r['Wholesale Price'] ?? r['B2B Price'])}
+  function getStock(r){return num(r.Qty ?? r.Stock ?? r.stock ?? r.Quantity ?? r['Available Qty'])}
+  function getImage(r){return String(r.ImageURL||r.ImageUrl||r.Image||r.image||r['Image URL']||'').trim()}
+  function getCategory(r){return String(r.Category||r.category||'General').trim()||'General'}
+  function getDescription(r){return String(r.Description||r.description||'').trim()}
+  function parseTiers(text){
+    const tiers=[];
+    String(text||'').split(/[\n;|]+/).forEach(line=>{
+      const amount=line.match(/(?:₹|rs\.?\s*|inr\s*)([\d,]+(?:\.\d+)?)/i);
+      const discount=line.match(/([\d.]+)\s*%\s*(?:off|discount)?/i);
+      const fixed=line.match(/(?:₹|rs\.?\s*|inr\s*)([\d,]+)\s*(?:off|discount)/i);
+      if(amount && (discount||fixed)) tiers.push({min:num(amount[1]),label:line.trim(),discountPct:discount?num(discount[1]):0,discountFixed:fixed?num(fixed[1]):0});
     });
-
-    recognition.onresult = (e)=>{
-      const text = e.results[0][0].transcript;
-      const s = document.getElementById("search");
-      if(s){
-        s.value = text;
-        if(window.render) render();
-      }
-    };
-    recognition.onend = ()=> micBtn.textContent="🎤";
+    return tiers.sort((a,b)=>a.min-b.min);
   }
-
-  if(clearSelBtn){
-    clearSelBtn.addEventListener("click", ()=>{
-      if(!window.SELECTED) return;
-      SELECTED.clear();
-      document.querySelectorAll(".rowSel").forEach(c=>c.checked=false);
-      document.querySelectorAll(".qtyInp").forEach(i=>i.value="");
-      if(window.updateSelectionBar) updateSelectionBar();
+  async function loadOffer(){
+    try{
+      const res=await fetch(OFFER_API,{cache:'no-store'}); if(!res.ok) throw new Error('Offer feed unavailable');
+      const data=await res.json(); offerText=String(data.offer||data.message||data.text||'').trim(); offerTiers=parseTiers(offerText);
+      $('#live-offer-text').textContent=offerText||'Ask our team about current B2B offers when sending your quote.';
+    }catch(e){$('#live-offer-text').textContent='Bulk buyers: add products to your quote and ask our team for current offers.'}
+    updateQuoteTotals();
+  }
+  function makeCategories(){
+    const host=$('#categories'); host.innerHTML='';
+    const cats=['all',...new Set(RAW.map(getCategory))];
+    cats.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.dataset.category=c;b.setAttribute('aria-pressed',String(i===0));b.className='chip whitespace-nowrap rounded-full border border-[#E9DFD3] px-4 py-2 text-sm font-semibold '+(i===0?'active':'bg-white');b.textContent=i===0?'All products':c;host.appendChild(b)});
+  }
+  function renderCards(){
+    const grid=$('#product-grid'); const template=grid.querySelector('.product-card');
+    if(!template)return;
+    const prototype=template.cloneNode(true); grid.innerHTML='';
+    RAW.forEach((r,i)=>{
+      const card=prototype.cloneNode(true), key=getSku(r)||('item-'+i), name=getName(r), price=getPrice(r), stock=getStock(r), img=getImage(r), cat=getCategory(r), desc=getDescription(r);
+      card.dataset.key=key; card.dataset.category=cat; card.dataset.search=[name,key,desc,cat].join(' ').toLowerCase(); card.hidden=false;
+      const nameEl=card.querySelector('[data-template-id^="product-name"]'); if(nameEl)nameEl.textContent=name;
+      const skuEl=card.querySelector('[data-template-id^="product-sku"]'); if(skuEl)skuEl.textContent='SKU: '+(key||'N/A');
+      const priceEl=card.querySelector('[data-template-id^="product-price"]'); if(priceEl)priceEl.textContent='₹'+fmt(price);
+      const stockEl=card.querySelector('[data-template-id^="product-stock"]'); if(stockEl){stockEl.textContent=stock>0?`${fmt(stock)} in stock`:'Stock to confirm';stockEl.style.color=stock>0?'#287548':'#756F68'}
+      const tag=card.querySelector('[data-template-id^="product-tag"]'); if(tag)tag.textContent=cat.toUpperCase();
+      const art=card.querySelector('.card-art'); if(art){art.innerHTML=img?`<img class="live-product-image" loading="lazy" src="${esc(img)}" alt="${esc(name)}" onerror="this.style.display='none'">`:'<div class="object-shape"></div>';art.setAttribute('aria-label',name)}
+      const gallery=card.querySelector('.gallery'); if(gallery)gallery.hidden=true;
+      let description=card.querySelector('.product-description'); if(!description){description=document.createElement('p');description.className='product-description';const px=card.querySelector('.px-1');if(px)px.insertBefore(description,px.children[1]||null)} description.textContent=desc;
+      card.querySelector('.qty').textContent='1';
+      card.querySelector('.minus').onclick=()=>{const q=card.querySelector('.qty');q.textContent=Math.max(1,num(q.textContent)-1)};
+      card.querySelector('.plus').onclick=()=>{const q=card.querySelector('.qty');q.textContent=Math.min(999,num(q.textContent)+1)};
+      card.querySelector('.add').onclick=()=>{const qty=num(card.querySelector('.qty').textContent);const hadItem=quote.has(key);const uniqueBefore=quote.size;quote.set(key,Math.min(999,(quote.get(key)||0)+qty));updateQuote();notify('Added to your quote.');if(!hadItem&&uniqueBefore===1){setQuote(true);notify('2 products selected — quote opened automatically.')}};
+      grid.appendChild(card);
     });
+    $('#catalog-disclaimer').textContent='Live product details and prices are synced from the RojyoMart catalog. Stock and final rates are subject to confirmation.';
+    renderCatalog();
   }
-
-  const oldUpdate = window.updateSelectionBar;
-  if(oldUpdate){
-    window.updateSelectionBar = function(){
-      oldUpdate();
-      if(!clearSelBtn || !window.SELECTED) return;
-      clearSelBtn.classList.toggle("hidden", SELECTED.size===0);
-    }
+  function renderCatalog(){
+    const query=$('#search').value.trim().toLowerCase(), min=$('#min-price').value===''?null:num($('#min-price').value), max=$('#max-price').value===''?null:num($('#max-price').value), stockOnly=$('#stock-only').checked;
+    let cards=[...document.querySelectorAll('.product-card')];
+    let visible=cards.filter(c=>{const r=RAW.find(x=>(getSku(x)||'')===c.dataset.key);if(!r)return false;const p=getPrice(r);return (category==='all'||getCategory(r)===category)&&c.dataset.search.includes(query)&&(min===null||p>=min)&&(max===null||p<=max)&&(!stockOnly||getStock(r)>0)});
+    if($('#sort').value==='name')visible.sort((a,b)=>a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent));
+    if($('#sort').value==='reverse')visible.sort((a,b)=>b.querySelector('h3').textContent.localeCompare(a.querySelector('h3').textContent));
+    cards.forEach(c=>c.hidden=!visible.includes(c)); visible.forEach(c=>$('#product-grid').appendChild(c));
+    $('#result-count').textContent=`${visible.length} product${visible.length===1?'':'s'}`;$('#no-results').hidden=visible.length!==0;
   }
+  function updateQuoteTotals(){
+    let subtotal=0,count=0;quote.forEach((qty,key)=>{const r=RAW.find(x=>(getSku(x)||'')===key);if(r){subtotal+=getPrice(r)*qty;count+=qty}});
+    $('[data-template-id="subtotal-value"]').textContent='₹'+fmt(subtotal);
+    $('#moq-status').textContent=subtotal>=MOQ?'MOQ reached — you can send this quote.':`Add ₹${fmt(Math.max(0,MOQ-subtotal))} more to reach the ₹${fmt(MOQ)} minimum order.`;
+    let next=offerTiers.find(t=>t.min>subtotal);
+    let progress='';
+    if(!quote.size) progress='Add products to see your order value and available offers.';
+    else if(next) progress=`<strong>Offer target:</strong> Add ₹${fmt(Math.max(0,next.min-subtotal))} more to reach ₹${fmt(next.min)}. <span>${esc(next.label)}</span>`;
+    else if(offerTiers.length) progress='You have reached the highest listed offer tier. Confirm eligibility with our team.';
+    else progress=offerText?`<strong>Current offer:</strong> ${esc(offerText)}<br>Ask the team to confirm the next discount slab for your bill value.`:'Current offer slabs are being confirmed. Ask our team when sending your quote.';
+    $('#offer-progress').innerHTML=progress;
+    $('#mobile-count').textContent=count;$('#desktop-count').textContent=count;
+  }
+  function updateQuote(){
+    const host=$('#quote-items');host.innerHTML='';let subtotal=0;
+    quote.forEach((qty,key)=>{const r=RAW.find(x=>(getSku(x)||'')===key);if(!r)return;const price=getPrice(r),line=price*qty;subtotal+=line;
+      const row=document.createElement('div');row.className='quote-row border border-[#E9DFD3] rounded-xl p-3 flex items-center gap-3';row.innerHTML=`<div class="w-12 h-12 rounded-lg shrink-0 bg-[#EBDCCB] flex items-center justify-center"><i data-lucide="package" class="w-5 h-5 text-[#9A4A2E]"></i></div><div class="min-w-0 flex-1"><div class="text-sm font-bold">${esc(getName(r))}</div><div class="text-xs text-[#756F68]">${esc(key)} · Qty ${qty} · ₹${fmt(price)} each</div><div class="text-sm font-bold mt-1">₹${fmt(line)}</div></div><button type="button" class="p-2 text-[#9A4A2E]" aria-label="Remove item"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
+      row.querySelector('button').onclick=()=>{quote.delete(key);updateQuote();notify('Item removed from quote.')};host.appendChild(row);
+    });
+    $('#quote-empty').hidden=quote.size>0;updateQuoteTotals();if(window.lucide)lucide.createIcons();
+  }
+  function setQuote(open){const panel=$('#quote-panel');panel.classList.toggle('open',open);panel.classList.toggle('desktop-closed',!open);panel.setAttribute('aria-hidden',String(!open));$('#shade').hidden=!open;if(open&&innerWidth<1024)$('#close-quote').focus()}
+  async function syncNow(){
+    $('#sync').disabled=true;const label=$('#sync').querySelector('span');if(label)label.textContent='Syncing…';
+    try{const res=await fetch(API_BASE,{cache:'no-store'});if(!res.ok)throw new Error('Catalog feed returned '+res.status);const data=await res.json();const rows=Array.isArray(data)?data:(data.data||data.products||data.rows||[]);if(!Array.isArray(rows)||!rows.length)throw new Error('No products returned by live feed');RAW=rows;makeCategories();renderCards();updateQuote();notify(`Catalog synced: ${RAW.length} products loaded.`)}
+    catch(e){console.error(e);notify('Live sync failed. Please check the Google Sheets feed connection.');if(!RAW.length){$('#result-count').textContent='Catalog connection unavailable';$('#no-results').hidden=false;$('#no-results').textContent='Unable to load live products. Please try Sync again.'}}
+    finally{$('#sync').disabled=false;if(label)label.textContent='Sync now'}
+  }
+  $('#search').addEventListener('input',renderCatalog);$('#sort').addEventListener('change',renderCatalog);
+  $('#categories').addEventListener('click',e=>{const chip=e.target.closest('[data-category]');if(!chip)return;category=chip.dataset.category;$('#categories').querySelectorAll('[data-category]').forEach(el=>{el.classList.toggle('active',el===chip);el.setAttribute('aria-pressed',String(el===chip))});renderCatalog()});
+  $('#filter-toggle').addEventListener('click',()=>{const el=$('#filters');el.hidden=!el.hidden;$('#filter-toggle').setAttribute('aria-expanded',String(!el.hidden))});
+  $('#stock-only').addEventListener('change',renderCatalog);['#min-price','#max-price'].forEach(id=>$(id).addEventListener('input',renderCatalog));
+  $('#sync').addEventListener('click',syncNow);$('#mobile-quote').addEventListener('click',()=>setQuote(true));$('#desktop-quote').addEventListener('click',()=>setQuote(true));$('#mobile-whatsapp').addEventListener('click',()=>{setQuote(true);notify('Add items and buyer details to prepare a WhatsApp quote.')});$('#close-quote').addEventListener('click',()=>setQuote(false));$('#shade').addEventListener('click',()=>setQuote(false));$('#browse-products').addEventListener('click',()=>{setQuote(false);$('#catalog').scrollIntoView({behavior:'smooth'})});document.addEventListener('keydown',e=>{if(e.key==='Escape'){setQuote(false);$('#info-overlay').hidden=true}});
+  $('#buyer-form').addEventListener('submit',e=>{e.preventDefault();if(!quote.size){notify('Add a product before preparing a WhatsApp quote.');return}const name=$('#buyer-name').value.trim(),phone=$('#buyer-phone').value.trim(),business=$('#buyer-business').value.trim();if(!name||!phone||!business){notify('Complete your name, phone and business details.');return}let subtotal=0;const lines=[...quote].map(([key,qty])=>{const r=RAW.find(x=>(getSku(x)||'')===key);if(!r)return '';const line=getPrice(r)*qty;subtotal+=line;return `- ${getName(r)} (${key}) x ${qty} @ ₹${fmt(getPrice(r))} = ₹${fmt(line)}`}).filter(Boolean);const offerTip=$('#offer-progress').innerText;const message=`RojyoMart B2B Quote Request\nBuyer: ${name}\nPhone: ${phone}\nBusiness: ${business}\n\n${lines.join('\n')}\n\nSubtotal: ₹${fmt(subtotal)}\nMinimum order value: ₹${fmt(MOQ)}\n${offerTip}\nPlease confirm final stock, shipping and offer eligibility.`;window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');notify('WhatsApp draft opened. Review it before sending.')});
+  function exportRows(){return [...quote].map(([key,qty])=>{const r=RAW.find(x=>(getSku(x)||'')===key);return r?[getName(r),key,qty,getPrice(r),getPrice(r)*qty,getStock(r)]:null}).filter(Boolean)}
+  function download(content,type,filename){const url=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+  document.querySelectorAll('[data-export]').forEach(button=>button.addEventListener('click',()=>{if(!quote.size){notify('Add products before exporting a quote.');return}const rows=exportRows(),type=button.dataset.export,headers=['Product','SKU','Quantity','Unit price (INR)','Line total (INR)','Stock'];if(type==='csv'){const csv=[headers,...rows].map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');download('\uFEFF'+csv,'text/csv;charset=utf-8','rojyomart-quote.csv')}else if(type==='excel'){const escape=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');const table='<html><head><meta charset="utf-8"></head><body><table border="1">'+[headers,...rows].map(row=>'<tr>'+row.map(v=>'<td>'+escape(v)+'</td>').join('')+'</tr>').join('')+'</table><p>Minimum order value: INR 5,000.</p></body></html>';download(table,'application/vnd.ms-excel','rojyomart-quote.xls')}else{if(!window.jspdf){notify('PDF export unavailable. Try CSV instead.');return}const pdf=new window.jspdf.jsPDF();pdf.setFontSize(17);pdf.text('RojyoMart - B2B Quote',15,20);pdf.setFontSize(10);let y=32;rows.forEach(([name,sku,qty,price,total])=>{const line=`${name} | ${sku} | Qty ${qty} | Rs ${fmt(price)} each | Rs ${fmt(total)}`;pdf.text(line.slice(0,100),15,y);y+=8;if(y>270){pdf.addPage();y=20}});let subtotal=rows.reduce((s,r)=>s+num(r[4]),0);pdf.text(`Subtotal: Rs ${fmt(subtotal)} | MOQ: Rs 5,000`,15,y+8);pdf.save('rojyomart-quote.pdf')}notify(`${type.toUpperCase()} quote downloaded.`)}));
+  function info(title,copy){$('#info-title').textContent=title;$('#info-copy').textContent=copy;$('#info-overlay').hidden=false;$('#info-close').focus()}
+  $('#policy-link').addEventListener('click',()=>info('Policy information','Please confirm current wholesale terms, dispatch timelines and return conditions with RojyoMart before placing a bulk order.'));$('#contact-link').addEventListener('click',()=>info('Contact RojyoMart','Use the WhatsApp quote form to send your product list and buyer details to the RojyoMart team.'));$('#info-close').addEventListener('click',()=>$('#info-overlay').hidden=true);$('#info-overlay').addEventListener('click',e=>{if(e.target.id==='info-overlay')e.currentTarget.hidden=true});
+  if(window.lucide)lucide.createIcons();setQuote(false);loadOffer();syncNow();setInterval(loadOffer,300000);setInterval(syncNow,60000);
 })();
 </script>
-
-</body>
-</html>
-
-<!-- FLOATING BUTTONS -->
-<div class="fixed bottom-20 right-4 flex flex-col gap-3 z-50">
-  <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/919837242496?text=Hello%20RojyoMart!%20Need%20help%20with%20a%20B2B%20product%20order."
-     target="_blank"
-     class="floating-btn bg-green-600 hover:bg-green-700 shadow-lg">
-    💬
-  </a>
-
-  <!-- Back to Top Button -->
-  <button id="backToTop" class="floating-btn bg-blue-600 hover:bg-blue-700 shadow-lg hidden">
-    ⬆
-  </button>
-</div>
-
-  <!-- Script -->
-  <script>
-  const API_BASE = 'https://script.google.com/macros/s/AKfycbwUGLtAezSNaFW6-5HgCQ9aBGtZx3hU8EMQTKJR_Gp9PddJd-giaVM4GCmfSfKKzN8/exec';
-  let RAW=[],DATA=[],SELECTED=new Map(), CATEGORIES=new Set();
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  const fmt = n => new Intl.NumberFormat('en-IN').format(n||0);
-  const parseNumber = v => Number(String(v).replace(/,/g,''))||0;
-
-  // Fetch
-  async function fetchRows(){
-    const res = await fetch(API_BASE+'?action=list',{cache:'no-store'});
-    const j = await res.json();
-    return j.data||[];
-  }
-
-  // Build category set
-  function rebuildCategories(){
-    CATEGORIES = new Set();
-    RAW.forEach(r=>{
-      const cat = (r.Category||'General').toString().trim() || 'General';
-      CATEGORIES.add(cat);
-    });
-    const sel = document.getElementById('filterCategory');
-    const keep = sel.value;
-    sel.innerHTML = '<option value="">All Categories</option>' + Array.from(CATEGORIES).sort().map(c=>`<option ${c===keep?'selected':''}>${c}</option>`).join('');
-  }
-
-  async function syncNow(){
-  RAW = await fetchRows();
-  rebuildCategories();
-  render();
-  renderFeatured(); // ✅ add this line
-}
-
-  document.getElementById('btnSync').addEventListener('click', syncNow);
-
-  // Filters state
-  const filters = {
-    q: '',
-    category: '',
-    minPrice: null,
-    maxPrice: null,
-    inStockOnly: false,
-  };
-
-  // Render
-// --- FEATURED PRODUCTS SECTION ---
-function renderFeatured() {
-  const wrap = document.getElementById('featuredWrap');
-  if (!wrap || !RAW.length) return;
-
-  const featured = RAW
-    .filter(r => parseNumber(r.QuantityInHand) > 0)
-    .sort((a,b) => parseNumber(b.QuantityInHand) - parseNumber(a.QuantityInHand))
-    .slice(0, 8);
-
-  wrap.innerHTML = '';
-
-  featured.forEach(r => {
-    const img = r.ImageURL || "https://via.placeholder.com/300x300?text=RojyoMart";
-    const card = document.createElement('div');
-    card.className = 'feature-card';
-    card.innerHTML = `
-      <img src="${img}" alt="${r.Name || 'Product'}" class="img-open" data-img="${img}" data-caption="${r.Name}">
-      <h3>${r.Name || 'Product Name'}</h3>
-      <p>₹${fmt(r.Price || 0)}</p>
-    `;
-    card.addEventListener('click', () => openImage(img, r.Name || 'Product'));
-    wrap.appendChild(card);
-  });
-}
-
-  function render(){
-    const q = document.getElementById('search').value.toLowerCase().trim();
-    filters.q = q;
-    filters.category = document.getElementById('filterCategory').value;
-    filters.minPrice = parseNumber(document.getElementById('minPrice').value);
-    filters.maxPrice = parseNumber(document.getElementById('maxPrice').value);
-    filters.inStockOnly = document.getElementById('inStockOnly').checked;
-
-    DATA = RAW
-  .filter(r=>{
-    const keyStrs = [r.SKU,r.Name,r.Description].map(v=>String(v||'').toLowerCase());
-    const matchQ = !q || keyStrs.some(s=>s.includes(q));
-    const cat = (r.Category||'General').toString().trim()||'General';
-    const matchCat = !filters.category || cat===filters.category;
-
-    const price = parseNumber(r.Price);
-    const matchMin = !filters.minPrice || price >= filters.minPrice;
-    const matchMax = !filters.maxPrice || price <= filters.maxPrice;
-
-    const stock = parseNumber(r.QuantityInHand)||0;
-    const matchStock = !filters.inStockOnly || stock>0;
-
-    return matchQ && matchCat && matchMin && matchMax && matchStock;
-  })
-  // ✅ Sort available stock (descending)
-  .sort((a,b)=>{
-    const sa = parseNumber(a.QuantityInHand)||0;
-    const sb = parseNumber(b.QuantityInHand)||0;
-    return sb - sa;
-  });
-
-    const tb = document.getElementById('tbody'); tb.innerHTML='';
-    document.getElementById('emptyState').classList.toggle('hidden', DATA.length!==0);
-
-    DATA.forEach(r=>{
-      const key = String(r.SKU||'').trim(); const sel = SELECTED.get(key);
-      const stock = parseNumber(r.QuantityInHand)||0;
-      const color = stock>0?'text-green-600':'text-red-500';
-      const txt = stock>0?fmt(stock):'Out of Stock';
-      const cat = (r.Category||'General').toString().trim()||'General';
-      const img = r.ImageURL||"https://via.placeholder.com/300x300?text=No+Image";
-
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="p-3 text-center"><input type='checkbox' class='rowSel' data-sku='${key}' ${sel?'checked':''}></td>
-        <td class="p-3 text-center">
-          <img src='${img}' alt='${(r.Name||'Product')}' class='w-16 h-16 object-cover rounded-lg mx-auto shadow-sm cursor-zoom-in img-open' data-img='${img}' data-caption='${(r.Name||'') + (r.SKU?(" • "+r.SKU):"")}'>
-        </td>
-        <td class="p-3 font-mono text-xs text-gray-500">${r.SKU||''}</td>
-        <td class="p-3 font-medium text-gray-800">${r.Name||''}<div class="text-gray-500 text-xs">${r.Description||''}</div></td>
-        <td class="p-3 text-gray-700">${cat}</td>
-        <td class="p-3 text-right text-gray-700">₹${fmt(r.Price)}</td>
-        <td class="p-3 text-right ${color}">${txt}</td>
-        <td class="p-3 text-right">
-          <div class="flex justify-end items-center gap-1">
-            <button class="qty-btn" data-action="minus" data-sku="${key}">−</button>
-            <input type="number" min="0" class="qty-input qtyInp" data-sku="${key}" value="${sel?.qty||''}" data-stock="${stock}"/>
-            <button class="qty-btn" data-action="plus" data-sku="${key}">+</button>
-          </div>
-        </td>`;
-      tb.appendChild(tr);
-    });
-    updateSelectionBar();
-  }
-
-  function updateSelectionBar(){
-    let subtotal=0,count=0;
-    SELECTED.forEach(({row,qty})=>{ if(parseNumber(qty)>0){ subtotal+=parseNumber(row.Price)*parseNumber(qty); count++; }});
-    document.getElementById('selSubtotal').textContent=`₹${fmt(subtotal)}`;
-    document.getElementById('selCount').textContent=count;
-    document.getElementById('selectionBar').classList.toggle('hidden',count===0);
-  }
-
-  // Qty and selection handlers
-  // --- Click handler (fixed image zoom + stock validation) ---
-document.getElementById('tbody').addEventListener('click', (e) => {
-  // 1️⃣ If image clicked → open zoom modal and stop further code
-  const img = e.target.closest('.img-open');
-  if (img) {
-    openImage(img.dataset.img, img.dataset.caption || '');
-    return;
-  }
-
-  // 2️⃣ Otherwise handle quantity and checkbox logic
-  const t = e.target;
-  const sku = t.dataset.sku;
-  if (!sku) return; // clicked outside SKU-linked element
-
-  const row = RAW.find(r => String(r.SKU || '').trim() === sku);
-  if (!row) return;
-
-  const stock = parseNumber(row.QuantityInHand) || 0;
-
-  if (t.classList.contains('qty-btn')) {
-    const inp = document.querySelector(`input.qtyInp[data-sku="${sku}"]`);
-    let val = parseNumber(inp.value);
-    val += (t.dataset.action === 'plus' ? 1 : -1);
-    if (val < 0) val = 0;
-    if (val > stock) {
-      val = stock;
-      alert(`⚠️ Only ${stock} units available in stock.`);
-    }
-    inp.value = val;
-
-    const cb = document.querySelector(`input.rowSel[data-sku="${sku}"]`);
-    if (val > 0) {
-      cb.checked = true;
-      SELECTED.set(sku, { row, qty: val });
-    } else {
-      cb.checked = false;
-      SELECTED.delete(sku);
-    }
-
-    updateSelectionBar();
-  }
-});
-
-  document.getElementById('tbody').addEventListener('change', e=>{
-    const t=e.target; const sku=t.dataset.sku;
-    const row=RAW.find(r=>String(r.SKU||'').trim()===sku);
-    if(!row) return;
-    const stock=parseNumber(row.QuantityInHand)||0;
-
-    if(t.classList.contains('qtyInp')){
-      let entered=parseNumber(t.value);
-      if(entered>stock){ entered=stock; t.value=entered; alert(`⚠️ Only ${stock} units available in stock.`); }
-      const cb=document.querySelector(`input.rowSel[data-sku="${sku}"]`);
-      if(entered>0){ cb.checked=true; SELECTED.set(sku,{row,qty:entered}); } else { cb.checked=false; SELECTED.delete(sku); }
-    }
-    if(t.classList.contains('rowSel')){
-      const inp=document.querySelector(`input.qtyInp[data-sku="${sku}"]`);
-      if(t.checked){
-        const moq=parseNumber(row.MOQ)||1;
-        let q=parseNumber(inp.value)||moq;
-        if(q>stock){ q=stock; alert(`⚠️ Only ${stock} units available in stock.`); }
-        inp.value=q; SELECTED.set(sku,{row,qty:q});
-      } else { SELECTED.delete(sku); inp.value=''; }
-    }
-    updateSelectionBar();
-  });
-
-  // Search & filters interactions
-  document.getElementById('search').addEventListener('input', render);
-  document.getElementById('filterCategory').addEventListener('change', render);
-  document.getElementById('minPrice').addEventListener('input', render);
-  document.getElementById('maxPrice').addEventListener('input', render);
-  document.getElementById('inStockOnly').addEventListener('change', render);
-  document.getElementById('btnClearFilters').addEventListener('click', ()=>{
-    document.getElementById('filterCategory').value='';
-    document.getElementById('minPrice').value='';
-    document.getElementById('maxPrice').value='';
-    document.getElementById('inStockOnly').checked=false;
-    document.getElementById('search').value='';
-    render();
-  });
-
-  // Build WhatsApp text
-  function buildWhatsAppText(buyer){
-    const items=Array.from(SELECTED.values()).filter(x=>parseNumber(x.qty)>0);
-    if(!items.length) return '';
-    let lines=['*RojyoMart — B2B Quote*',''];
-    if(buyer){
-      lines.push(`*Buyer:* ${buyer.name}${buyer.company?(' • '+buyer.company):''}`);
-      if(buyer.phone) lines.push(`*Phone:* ${buyer.phone}`);
-      if(buyer.email) lines.push(`*Email:* ${buyer.email}`);
-      if(buyer.notes) lines.push(`*Notes:* ${buyer.notes}`);
-      lines.push('');
-    }
-    let total=0,i=1;
-    items.forEach(({row,qty})=>{
-      const price=parseNumber(row.Price), q=parseNumber(qty), st=price*q; total+=st;
-      lines.push(`${i}. *${row.Name}*`);
-      lines.push(`   SKU: ${row.SKU}`);
-      if(row.Category) lines.push(`   Category: ${row.Category}`);
-      lines.push(`   Qty: ${q} • Price: ₹${fmt(price)} • Subtotal: ₹${fmt(st)}`);
-      lines.push('');
-      i++;
-    });
-    lines.push(`*Grand Total:* ₹${fmt(total)}`,'','Thank you for choosing *RojyoMart*! 🙏');
-    return lines.join('\n');
-  }
-
-  // Image Modal
-  function openImage(src, caption){
-    const m = document.getElementById('imgModal');
-    document.getElementById('imgPreview').src = src;
-    document.getElementById('imgCaption').textContent = caption;
-    m.classList.add('show');
-  }
-  document.getElementById('imgClose').onclick = ()=>document.getElementById('imgModal').classList.remove('show');
-  document.getElementById('imgModal').addEventListener('click', (e)=>{ if(e.target.id==='imgModal') e.currentTarget.classList.remove('show'); });
-
-  // Quote Modal before WhatsApp
-  const quoteModal = document.getElementById('quoteModal');
-  document.getElementById('btnShare').addEventListener('click', ()=>{
-    if(Array.from(SELECTED.values()).filter(x=>parseNumber(x.qty)>0).length===0){
-      alert('Please select at least one product.'); return;
-    }
-    quoteModal.classList.add('show');
-  });
-  const closeQuote = ()=>quoteModal.classList.remove('show');
-  document.getElementById('quoteClose').onclick = closeQuote;
-  document.getElementById('quoteCancel').onclick = closeQuote;
-
-  document.getElementById('quoteForm').addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const buyer = {
-      name: document.getElementById('buyerName').value.trim(),
-      company: document.getElementById('buyerCompany').value.trim(),
-      phone: document.getElementById('buyerPhone').value.trim(),
-      email: document.getElementById('buyerEmail').value.trim(),
-      notes: document.getElementById('buyerNotes').value.trim(),
-    };
-    if(!buyer.name || !buyer.phone){ alert('Name and Phone/WhatsApp are required.'); return; }
-    const text=buildWhatsAppText(buyer);
-    const phone='919837242496';
-    const msg=encodeURIComponent(text+'\n\n🛍️ *RojyoMart — Wholesale Store*\n📦 Fast Shipping | Best Prices\n🌐 https://www.rojyomart.com');
-    closeQuote();
-    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${msg}`,'_blank');
-  });
-
-  // Export: Excel
-  function buildSelectedRows(){
-    const rows=[];
-    SELECTED.forEach(({row,qty})=>{
-      const q=parseNumber(qty);
-      if(q>0){
-        const price=parseNumber(row.Price);
-        rows.push({
-          SKU: row.SKU||'',
-          Name: row.Name||'',
-          Category: row.Category||'',
-          Description: row.Description||'',
-          Price: price,
-          Qty: q,
-          Subtotal: price*q
-        });
-      }
-    });
-    return rows;
-  }
-
-  document.getElementById('btnExportExcel').addEventListener('click', ()=>{
-    const rows=buildSelectedRows();
-    if(rows.length===0){ alert('Nothing selected.'); return; }
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(rows);
-    XLSX.utils.book_append_sheet(wb, ws, 'Quote');
-    const total = rows.reduce((a,b)=>a+(b.Subtotal||0),0);
-    XLSX.utils.sheet_add_aoa(ws, [['Grand Total', '', '', '', '', '', total]], {origin: -1});
-    XLSX.writeFile(wb, `RojyoMart_Quote_${new Date().toISOString().slice(0,10)}.xlsx`);
-  });
-
-  // Export: PDF
-  // ✅ FIXED PDF Export with visible dark Grand Total row
-document.getElementById('btnExportPDF').addEventListener('click', ()=>{
-  const rows = buildSelectedRows();
-  if(rows.length===0){ alert('Nothing selected.'); return; }
-
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({orientation:'p', unit:'pt', format:'a4'});
-  const date = new Date().toLocaleDateString('en-IN');
-
-  // Header
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(14);
-  doc.text('RojyoMart — B2B Quote', 40, 40);
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(10);
-  doc.text(`Date: ${date}`, 40, 58);
-  doc.text('www.rojyomart.com | ad.rojyomart@gmail.com | +91 9837242496', 40, 74);
-
-  // Table data
-  const body = rows.map(r=>[
-    r.SKU,
-    r.Name,
-    r.Category || '',
-    fmt(r.Price),
-    fmt(r.Qty),
-    fmt(r.Subtotal)
-  ]);
-
-  const total = rows.reduce((a,b)=>a+(b.Subtotal||0),0);
-
-  // 🧾 Bold & visible footer row
-  const foot = [[
-    { content: '', colSpan: 3 },
-    { content: 'GRAND TOTAL', colSpan: 2, styles: {
-        halign: 'right',
-        fontStyle: 'bold',
-        textColor: [0,0,0],
-        fillColor: [230,240,255]  // light blue background
-      }},
-    { content: `INR ${fmt(total)}`, styles: {
-        halign: 'right',
-        fontStyle: 'bold',
-        textColor: [0,0,0],
-        fillColor: [230,240,255]
-      }}
-  ]];
-
-  // Generate table
-  doc.autoTable({
-    startY: 90,
-    head: [['SKU','Product','Category','Price','Qty','Subtotal']],
-    body,
-    foot,
-    styles: { fontSize: 9, cellPadding: 4, textColor: [30,30,30] },
-    headStyles: { fillColor: [25,118,210], textColor: 255, fontStyle: 'bold' },
-    footStyles: { fillColor: [230,240,255], textColor: [0,0,0] },
-    columnStyles: { 3:{halign:'right'}, 4:{halign:'right'}, 5:{halign:'right'} }
-  });
-
-  doc.save(`RojyoMart_Quote_${new Date().toISOString().slice(0,10)}.pdf`);
-});
-// --- 🆕 PRODUCT DETAIL MODAL HANDLER ---
-function openProductModal(row) {
-  if (!row) return;
-
-  document.getElementById("pImg").src = row.ImageURL || "https://via.placeholder.com/300x300?text=No+Image";
-  document.getElementById("pName").textContent = row.Name || "Unnamed Product";
-  document.getElementById("pSKU").textContent = "SKU: " + (row.SKU || "N/A");
-  document.getElementById("pDesc").textContent = row.Description || "No description available.";
-  document.getElementById("pCat").textContent = row.Category || "General";
-  
-  const stock = parseNumber(row.QuantityInHand) || 0;
-  document.getElementById("pStock").textContent = stock > 0 ? `${stock} available` : "Out of Stock";
-  document.getElementById("pStock").className = stock > 0 ? "text-green-600 font-medium" : "text-red-500 font-medium";
-  document.getElementById("pPrice").textContent = `₹${fmt(row.Price || 0)}`;
-  document.getElementById("pQty").value = 1;
-
-  // Show modal
-  document.getElementById("productModal").classList.add("show");
-
-  // Add to quote button
-  document.getElementById("addToQuote").onclick = () => {
-    const qty = parseNumber(document.getElementById("pQty").value);
-    if (qty <= 0) return alert("Please enter a valid quantity.");
-    if (qty > stock) return alert(`⚠️ Only ${stock} units available in stock.`);
-
-    const sku = String(row.SKU || "").trim();
-    SELECTED.set(sku, { row, qty });
-    updateSelectionBar();
-
-    alert(`✅ ${row.Name} added to your quote list!`);
-    document.getElementById("productModal").classList.remove("show");
-  };
-}
-
-// Close modal logic
-document.getElementById("closeProductModal").onclick = () => 
-  document.getElementById("productModal").classList.remove("show");
-
-document.getElementById("productModal").addEventListener("click", (e) => {
-  if (e.target.id === "productModal") e.currentTarget.classList.remove("show");
-});
-
-  // Back to Top
-  const topBtn = document.getElementById("backToTop");
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 400) topBtn.classList.add("show");
-    else topBtn.classList.remove("show");
-  });
-  topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-
-  // PWA: create manifest & service worker on the fly (works for a single HTML file)
-  (function setupPWA(){
-    // Manifest
-    const manifest = {
-      name: "RojyoMart — B2B Catalog Pro+",
-      short_name: "RojyoMart B2B",
-      start_url: ".",
-      scope: ".",
-      display: "standalone",
-      background_color: "#ffffff",
-      theme_color: "#1976d2",
-      icons: [
-        { src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAA...", sizes:"192x192", type:"image/png" },
-        { src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACW...", sizes:"512x512", type:"image/png" }
-      ]
-    };
-    const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('link');
-    link.rel='manifest'; link.href=url; document.head.appendChild(link);
-
-    // Service worker content
-    const swCode = `
-      const CACHE = 'rojyomart-b2b-v1';
-      const CORE = self.registration ? [self.location.href] : ['./'];
-      self.addEventListener('install', e=>{
-        self.skipWaiting();
-        e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)));
-      });
-      self.addEventListener('activate', e=>{
-        e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>k===CACHE?null:caches.delete(k)))));
-        self.clients.claim();
-      });
-      self.addEventListener('fetch', e=>{
-        const req = e.request;
-        // Network-first for API, cache-first for others
-        if(req.url.includes('${API_BASE.split('?')[0]}')){
-          e.respondWith(fetch(req).catch(()=>caches.match(req)));
-        } else {
-          e.respondWith(caches.match(req).then(r=> r || fetch(req).then(resp=>{
-            const copy = resp.clone();
-            caches.open(CACHE).then(c=>c.put(req, copy));
-            return resp;
-          })));
-        }
-      });
-    `;
-    const swBlob = new Blob([swCode], {type:'text/javascript'});
-    const swUrl = URL.createObjectURL(swBlob);
-    if('serviceWorker' in navigator){
-      navigator.serviceWorker.register(swUrl).catch(console.warn);
-    }
-
-    // Install button UX (for beforeinstallprompt)
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e)=>{
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('installBtn').classList.remove('hidden');
-    });
-    document.getElementById('installBtn').addEventListener('click', async ()=>{
-      if(!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      document.getElementById('installBtn').classList.add('hidden');
-    });
-  })();
-
-  // Init
-  (async()=>{ await syncNow(); })();
-  </script>
-<!-- your existing floating buttons, footer, etc. -->
-
-<!-- ✅ UPDATED TERMS & CONDITIONS MODAL -->
-<div id="termsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999]">
-  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-[90%] p-5 relative">
-    <!-- Close Button -->
-    <button id="closeTerms" class="absolute top-2 right-3 text-gray-400 hover:text-gray-600 text-lg">✖</button>
-
-    <!-- Title -->
-    <h2 class="text-lg font-semibold text-gray-800 mb-3">📜 Terms & Conditions</h2>
-
-    <!-- Content -->
-    <ul class="list-disc list-inside space-y-1 text-[13px] text-gray-600 leading-relaxed">
-      <li>All prices are exclusive of GST and Packing Charges unless stated otherwise.</li>
-      <li>In dropshipping orders, a packing charge of ₹20 per product applies.</li>
-      <li>Shipping charges vary based on order volume and delivery region.</li>
-      <li>100% advance payment is required before dispatch.</li>
-      <li>Bulk order deliveries are processed within 2–5 working days after confirmation.</li>
-      <li>No return or replacement is accepted for dropshipping or custom-made items.</li>
-    </ul>
-
-    <!-- Footer Button -->
-    <div class="mt-4 text-right">
-      <button id="closeTerms2" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition">
-        OK
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ✅ TERMS SCRIPT -->
-<script>
-  // Auto-update footer year (optional if not elsewhere)
-  if (document.getElementById("year")) {
-    document.getElementById("year").textContent = new Date().getFullYear();
-  }
-
-  // Open/Close Logic for Terms Modal
-  const termsModal = document.getElementById("termsModal");
-  const termsBtn = document.getElementById("termsBtn");
-  const closeTerms = document.getElementById("closeTerms");
-  const closeTerms2 = document.getElementById("closeTerms2");
-
-  if (termsBtn) {
-    termsBtn.addEventListener("click", () => termsModal.classList.remove("hidden"));
-  }
-
-  closeTerms.addEventListener("click", () => termsModal.classList.add("hidden"));
-  closeTerms2.addEventListener("click", () => termsModal.classList.add("hidden"));
-
-  // Close when clicking outside the popup
-  window.addEventListener("click", (e) => {
-    if (e.target === termsModal) {
-      termsModal.classList.add("hidden");
-    }
-  });
-</script>
-<!-- 🔹 Auto-Sliding Side Promotional Banners (Google Sheet Controlled) -->
-<div id="leftBanner" class="side-banner left-banner"></div>
-<div id="rightBanner" class="side-banner right-banner"></div>
-
-<style>
-.side-banner {
-  position: fixed;
-  top: 180px;
-  width: 160px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.2);
-  text-align: center;
-  padding: 8px;
-  overflow: hidden;
-  z-index: 9999;
-}
-.left-banner { left: 10px; }
-.right-banner { right: 10px; }
-
-.side-banner a { text-decoration: none; display: block; }
-.side-banner img {
-  width: 100%;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-}
-.side-banner img:hover { transform: scale(1.05); }
-.side-banner p {
-  font-size: 13px;
-  color: #333;
-  font-weight: 600;
-  margin-top: 6px;
-}
-.slide { display: none; }
-.slide.active { display: block; }
-
-@media (max-width: 768px) {
-  .side-banner { display: none; }
-}
-</style>
-
-<script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxkTHXOzqHKbavwDcrTnMk6Fk94QcfQDOKVDDa5B-1YfPAhtDHF2kmg2z1JuQLeuvs/exec'; // ← replace with your actual /exec link
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadBanners();
-});
-
-async function loadBanners() {
-  try {
-    const res = await fetch(SHEET_URL, { cache: 'no-store' });
-    if (!res.ok) throw new Error('Network response not ok');
-    const data = await res.json();
-
-    renderSide('#leftBanner',  data.left);
-    renderSide('#rightBanner', data.right);
-
-    startAutoSlide('#leftBanner');
-    startAutoSlide('#rightBanner');
-  } catch (err) {
-    console.error('Banner load failed:', err);
-  }
-}
-
-function renderSide(selector, items = []) {
-  const el = document.querySelector(selector);
-  if (!el) return;
-  if (!items.length) {
-    el.style.display = 'none';
-    return;
-  }
-
-  el.innerHTML = items.map(b => `
-    <div class="slide">
-      <a href="${b.link || '#'}" target="_blank" rel="noopener">
-        <img src="${b.image}" alt="Promo">
-      </a>
-      <p>${b.message || ''}</p>
-    </div>
-  `).join('');
-}
-
-function startAutoSlide(selector, interval = 3000) {
-  const slides = Array.from(document.querySelectorAll(`${selector} .slide`));
-  if (!slides.length) return;
-
-  let i = 0;
-  slides[i].classList.add('active');
-  setInterval(() => {
-    slides[i].classList.remove('active');
-    i = (i + 1) % slides.length;
-    slides[i].classList.add('active');
-  }, interval);
-}
-</script>
-</body>
-</html>
+ 
+</body></html>
